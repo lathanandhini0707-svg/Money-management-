@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#6d5dfc">
+<title>My Home Manager</title>
+<style>
+:root{
+  --bg:#f6f7ff;--card:#fff;--text:#20243a;--muted:#737995;--primary:#6d5dfc;
+  --primary2:#8b7fff;--soft:#eeecff;--mint:#dff8ef;--peach:#fff0e7;
+  --blue:#e7f1ff;--yellow:#fff7d8;--red:#ffe8ec;--green:#18a878;
+  --border:#e9eaf3;--shadow:0 10px 30px rgba(42,38,94,.08);--radius:20px;
+}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(145deg,#f8f8ff,#f3f8ff 45%,#f8f5ff);
+font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text)}
+button,input,select,textarea{font:inherit} button{cursor:pointer;border:0}
+.app{max-width:1100px;margin:auto;padding:18px 15px 80px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:11px}.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,var(--primary),#a69cff);display:grid;place-items:center;color:#fff;font-size:22px;box-shadow:0 9px 20px #6d5dfc33}
+.brand h1{font-size:18px;margin:0}.brand small{color:var(--muted)}
+.iconbtn{width:44px;height:44px;border-radius:14px;background:#fff;color:var(--text);box-shadow:var(--shadow);font-size:21px}
+.hero{background:linear-gradient(135deg,#6d5dfc,#8e80ff 60%,#b7b0ff);color:#fff;border-radius:28px;padding:23px;box-shadow:0 18px 40px #6d5dfc2b;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:#ffffff18;right:-60px;top:-65px}
+.hero h2{margin:0 0 6px;font-size:25px}.hero p{margin:0;color:#f0efff}.date{margin-top:16px;font-size:13px;color:#e7e5ff}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:24px 3px 11px}.section-title h3{margin:0;font-size:16px}.section-title span{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+.homecard{padding:15px;min-height:110px}.homecard .ico{font-size:23px;margin-bottom:10px}.homecard b{display:block;font-size:14px}.homecard small{color:var(--muted);font-size:11px;display:block;margin-top:4px}
+.today{padding:16px}.task{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}.task:last-child{border:0}.task input{width:19px;height:19px;accent-color:var(--primary)}
+.pill{display:inline-flex;padding:6px 9px;border-radius:99px;font-size:11px;background:var(--soft);color:var(--primary);font-weight:700}
+.search{display:flex;gap:8px;margin-top:14px}.search input{flex:1;padding:13px 15px;border:1px solid var(--border);border-radius:15px;outline:none;background:#fff}.search button{padding:0 15px;border-radius:15px;background:#fff;box-shadow:var(--shadow)}
+.menu{position:fixed;inset:0;background:#17162a66;z-index:20;display:none}.menu.open{display:block}.drawer{position:absolute;right:0;top:0;height:100%;width:min(390px,92vw);background:#fafaff;padding:22px;overflow:auto}.drawer h2{margin:4px 0 16px}.menugroup{margin:16px 0}.menugroup label{font-size:11px;color:var(--muted);font-weight:800;letter-spacing:.08em}.menuitem{display:flex;align-items:center;gap:12px;padding:13px 10px;border-radius:14px;margin-top:5px;background:#fff}.menuitem:hover{background:var(--soft)}
+.page{display:none}.page.active{display:block}.page-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 15px;padding:16px 17px;border:1px solid var(--border);border-radius:20px;background:linear-gradient(135deg,#fff,#f7f6ff);box-shadow:var(--shadow)}.page-head .ph-left{display:flex;align-items:center;gap:12px}.page-head .ph-icon{width:45px;height:45px;border-radius:14px;background:var(--soft);display:grid;place-items:center;font-size:22px}.page-head h2{margin:0;font-size:20px}.page-head p{margin:3px 0 0;color:var(--muted);font-size:11px}.page-head .ph-home{padding:9px 12px;border-radius:12px;background:#fff;border:1px solid var(--border);color:var(--primary);font-weight:700}.dash-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px}.dash-mini{padding:11px 12px;border:1px solid var(--border);border-radius:15px;background:#fff}.dash-mini small{display:block;color:var(--muted);font-size:10px}.dash-mini strong{display:block;margin-top:4px;font-size:16px}.page{position:relative}.back{background:#fff;border:1px solid var(--border);padding:10px 13px;border-radius:13px;margin-bottom:14px}.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:13px}.toolbar>*{min-width:130px}.select,.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid var(--border);border-radius:13px;background:#fff;outline:none}.field{margin-bottom:10px}.field label{font-size:11px;color:var(--muted);display:block;margin:0 0 5px}.btn{padding:11px 14px;border-radius:13px;background:var(--primary);color:#fff;font-weight:700}.btn.secondary{background:#eeeefe;color:var(--primary)}.btn.danger{background:#fff0f2;color:#c73551}.form{padding:16px;margin-bottom:14px}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.full{grid-column:1/-1}.list{display:grid;gap:10px}.rowcard{padding:14px;display:flex;justify-content:space-between;gap:12px;align-items:center}.rowcard h4{margin:0 0 5px;font-size:14px}.rowcard p{margin:0;color:var(--muted);font-size:12px}.actions{display:flex;gap:6px;flex-wrap:wrap}.mini{padding:7px 9px;border-radius:10px;background:#f1f1fb;color:var(--primary);font-size:11px}.mini.del{color:#c73551;background:#fff0f2}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.metric{padding:14px}.metric small{color:var(--muted);font-size:11px}.metric strong{display:block;font-size:20px;margin-top:5px}.good{background:var(--mint)}.warn{background:var(--yellow)}.bad{background:var(--red)}
+.notice{padding:13px 15px;border-radius:15px;background:var(--blue);font-size:12px;margin-bottom:12px}.hidden{display:none!important}
+.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:12px}.tab{padding:9px 13px;border-radius:12px;background:#eeeef8;color:#62677d;white-space:nowrap}.tab.active{background:var(--primary);color:#fff}
+table{width:100%;border-collapse:collapse;font-size:12px;background:#fff;border-radius:16px;overflow:hidden}th,td{text-align:left;padding:11px;border-bottom:1px solid var(--border)}th{color:var(--muted);font-size:10px}
+.empty{text-align:center;padding:30px;color:var(--muted);font-size:13px}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.metrics{grid-template-columns:repeat(2,1fr)}.dash-strip{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.rowcard{align-items:flex-start;flex-direction:column}.actions{width:100%}}
+@media(max-width:430px){.app{padding:13px 10px 70px}.hero{padding:19px}.hero h2{font-size:22px}.homecard{min-height:100px;padding:13px}}
+
+.page-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;padding:16px;border-radius:20px;background:linear-gradient(135deg,#edf5ff,#f8fbff);border:1px solid #dce8f6}.ph-left{display:flex;align-items:center;gap:12px}.ph-left h2{margin:0}.ph-left p{margin:3px 0 0;color:var(--muted);font-size:12px}.ph-icon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:#fff;font-size:22px}.ph-home{border:0;background:#fff;border-radius:12px;padding:10px 12px}.dash-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:10px 0 14px}.dash-mini{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;box-shadow:0 5px 18px rgba(30,60,100,.05)}.dash-mini small{display:block;color:var(--muted);font-size:11px}.dash-mini strong{display:block;margin-top:4px;font-size:18px}.hidden{display:none!important}
+@media(max-width:600px){.page-head{align-items:flex-start}.ph-left h2{font-size:18px}.dash-strip{grid-template-columns:repeat(2,1fr)}}
+
+  .reminder-overlay{position:fixed;inset:0;background:rgba(15,23,42,.45);backdrop-filter:blur(5px);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:70px 16px 20px;overflow:auto}
+  .reminder-modal{width:min(620px,100%);background:var(--card,#fff);border:1px solid rgba(100,116,139,.18);border-radius:24px;box-shadow:0 24px 70px rgba(15,23,42,.28);padding:20px}
+  .reminder-modal h3{margin:0 0 4px;font-size:20px}.reminder-modal .sub{margin:0 0 14px;color:var(--muted);font-size:12px}
+  .rem-item{padding:12px 0;border-top:1px solid rgba(100,116,139,.14);display:flex;gap:10px;align-items:flex-start}.rem-item:first-child{border-top:0}.rem-icon{font-size:20px}.rem-item strong{display:block}.rem-item small{color:var(--muted)}
+  .rem-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}.rem-close{border:0;border-radius:12px;padding:10px 16px;font-weight:700;cursor:pointer;background:var(--primary,#4f46e5);color:#fff}
+</style>
+</head>
+<body>
+<div class="app">
+  <div id="home" class="page active">
+    <div class="top">
+      <div class="brand"><div class="logo">⌂</div><div><h1>My Home</h1><small>Smart household manager</small></div></div>
+      <button class="iconbtn" onclick="openMenu()">☰</button>
+    </div>
+    <div class="hero"><h2 id="greeting">Good Morning 👋</h2><p>Keep your home simple, organised and in control.</p><div class="date" id="todayDate"></div></div>
+    <div class="search"><input id="globalSearch" placeholder="Search home, money, loan, account, grocery..."><button onclick="globalSearch()">⌕</button></div>
+    <div id="searchResults" class="card hidden" style="padding:14px;margin-top:10px"></div>
+
+    <!-- Home lower dashboard removed by request: keep only greeting, date and search. -->
+  </div>
+
+  <div id="money" class="page"><div class="page-head"><div class="ph-left"><div class="ph-icon">💰</div><div><h2>Income & Expenses Dashboard</h2><p>Choose Income or Expenses, then Daily or Monthly</p></div></div><button class="ph-home" onclick="goHome()">⌂ Home</button></div>
+    <div class="dash-strip" id="moneyDash"></div>
+    <div class="tabs"><button class="tab active" onclick="moneyMode('income',this)">💰 Income</button><button class="tab" onclick="moneyMode('expense',this)">🧾 Expenses</button></div>
+    <div class="toolbar"><select id="moneyPeriod" class="select" onchange="setMoneyPeriod(this.value)"><option value="daily">Daily</option><option value="monthly">Monthly</option></select><label class="btn secondary" style="display:inline-block">Upload proof / bill<input id="moneyProof" type="file" accept="image/*,.pdf" hidden onchange="handleMoneyProof(event)"></label></div>
+    <div id="moneyForm"></div><div id="moneyList" class="list"></div>
+  </div>
+
+  <div id="budget" class="page"><button class="back" onclick="goHome()">← Home</button><h2>Monthly Budget Planner</h2>
+    <div class="toolbar"><select class="select" id="budgetMonth" onchange="renderBudget()"></select></div>
+    <div id="budgetMetrics" class="metrics"></div>
+    <div class="card form"><h3>Set monthly plan</h3><div class="formgrid">
+      <div class="field"><label>Expected income</label><input id="bIncome" type="number"></div>
+      <div class="field"><label>Fixed commitments</label><input id="bFixed" type="number"></div>
+      <div class="field"><label>Household budget</label><input id="bHouse" type="number"></div>
+      <div class="field"><label>Savings target</label><input id="bSave" type="number"></div>
+      <div class="field"><label>Grocery budget</label><input id="bGrocery" type="number"></div>
+      <div class="field"><label>Other household budget</label><input id="bOther" type="number"></div>
+      <div class="full"><button class="btn" onclick="saveBudget()">Save Budget</button></div>
+    </div></div>
+    <div id="budgetDetail"></div>
+  </div>
+
+  <div id="loans" class="page"><button class="back" onclick="goHome()">← Home</button><h2>Loans & Debts</h2>
+    <div class="toolbar"><select id="loanPerson" class="select" onchange="renderLoans()"></select><button class="btn" onclick="toggleForm('loanForm')">+ Add Loan</button></div>
+    <div id="loanForm" class="card form hidden"><h3>Loan details</h3><div class="formgrid">
+      <div class="field"><label>Person</label><select id="lPerson"></select></div><div class="field"><label>Loan / debt name</label><input id="lName"></div>
+      <div class="field"><label>Lender / source</label><input id="lender"></div><div class="field"><label>Principal amount</label><input id="lPrincipal" type="number"></div>
+      <div class="field"><label>Start date</label><input id="lStart" type="date"></div><div class="field"><label>Interest amount / rate</label><input id="lRate" type="number" step="0.01"></div>
+      <div class="field"><label>Interest type</label><select id="lRateType"><option value="amount">Fixed amount</option><option value="percent">Percentage</option></select></div>
+      <div class="field"><label>Interest frequency</label><select id="lFreq"><option value="monthly">Monthly</option><option value="weekly">Weekly</option><option value="yearly">Yearly</option><option value="none">No interest</option></select></div>
+      <div class="field"><label>Regular EMI / payment</label><input id="lEmi" type="number"></div><div class="field"><label>First due date</label><input id="lDue" type="date"></div>
+      <div class="full"><button class="btn" onclick="saveLoan()">Save Loan</button></div>
+    </div></div>
+    <div id="loanList" class="list"></div>
+  </div>
+
+  <div id="accounts" class="page"><button class="back" onclick="goHome()">← Home</button><h2>Family Accounts</h2>
+    <div class="dash-strip" id="accountDash"></div><div class="toolbar"><select id="accountPerson" class="select" onchange="renderAccounts()"><option value="all">All accounts</option></select><button class="btn" onclick="toggleForm('accountForm')">+ Add Account</button></div>
+    <div id="accountForm" class="card form hidden"><h3>Account details</h3><div class="formgrid">
+      <div class="field"><label>Account holder</label><input id="aPerson" placeholder="Type account holder name"></div><div class="field"><label>Bank name</label><input id="aBank"></div>
+      <div class="field"><label>Account type</label><select id="aType"><option>Savings</option><option>Current</option><option>Other</option></select></div>
+      <div class="field"><label>Account number</label><input id="aNumber"></div><div class="field"><label>IFSC</label><input id="aIfsc"></div>
+      <div class="field"><label>CIF</label><input id="aCif"></div><div class="field" id="upiField"><label>UPI ID (only if GPay is used)</label><input id="aUpi"></div>
+      <div class="field"><label>GPay available?</label><select id="aGpay" onchange="toggleUPIField()"><option>Yes</option><option>No</option></select></div>
+      <div class="field"><label>ATM card?</label><select id="aAtm"><option>Yes</option><option>No</option></select></div>
+      <div class="field"><label>Opening bank balance</label><input id="aBalance" type="number"></div><div class="field hidden" id="gpayBalanceField"><label>GPay starting balance</label><input id="aGpayBalance" type="number"></div>
+      <div class="field"><label>GPay password / security</label><input id="aGpaySecret" type="password" autocomplete="off"></div><div class="field"><label>ATM PIN / security</label><input id="aAtmSecret" type="password" autocomplete="off"></div>
+      <div class="full"><div class="notice">Sensitive values are hidden by default. This single-file version stores data locally in the browser; for highly sensitive banking credentials, use a secure password manager rather than plain browser storage.</div><button class="btn" onclick="saveAccount()">Save Account</button></div>
+    </div></div>
+    <div id="accountList" class="list"></div>
+  </div>
+
+  <div id="grocery" class="page"><button class="back" onclick="goHome()">← Home</button><h2>Grocery & Shopping</h2>
+    <div class="tabs"><button class="tab active" onclick="gTab('pooja',this)">🪔 Pooja</button><button class="tab" onclick="gTab('kitchen',this)">🍚 Kitchen</button><button class="tab" onclick="gTab('home',this)">🏠 Household</button></div>
+    <div class="card form"><div class="formgrid">
+      <div class="field"><label>Item</label><select id="gItem" onchange="if(this.value==='__custom')document.getElementById('gCustom').classList.remove('hidden')"></select></div>
+      <div class="field hidden" id="gCustom"><label>Custom item</label><input id="gCustomText"></div>
+      <div class="field"><label>Quantity</label><input id="gQty" type="number" value="1" min="0"></div><div class="field"><label>Unit</label><select id="gUnit"><option>pcs</option><option>kg</option><option>g</option><option>litre</option><option>packet</option><option>box</option></select></div>
+      <div class="field"><label>Estimated amount</label><input id="gEst" type="number"></div><div class="field"><label>Actual amount</label><input id="gActual" type="number"></div>
+      <div class="field"><label>Purchased?</label><select id="gBought"><option>No</option><option>Yes</option></select></div>
+      <div class="full"><button class="btn" onclick="saveGrocery()">Save Item</button></div>
+    </div></div>
+    <div id="groceryList" class="list"></div>
+  </div>
+
+  <div id="bills" class="page"><div class="page-head"><div class="ph-left"><div class="ph-icon">🧾</div><div><h2>Bills & Payments Dashboard</h2><p>Track home bills, personal recharges and due dates</p></div></div><button class="ph-home" onclick="goHome()">⌂ Home</button></div>
+    <div class="dash-strip" id="billDash"></div><div class="card form"><div class="formgrid">
+      <div class="field"><label>Bill type</label><select id="billName" onchange="billTypeChanged()"><option>EB / Electricity</option><option>Water</option><option>Gas</option><option>Internet / Broadband</option><option>Cable / DTH</option><option>Mobile Recharge</option><option>Phone / Landline</option><option>Property / Maintenance</option><option>Insurance</option><option>Subscription</option><option>Other</option></select></div><div class="field"><label>Custom bill / service name</label><input id="billCustom" placeholder="Optional"></div>
+      <div class="field"><label>Amount</label><input id="billAmount" type="number"></div><div class="field"><label>Due date</label><input id="billDue" type="date"></div>
+      <div class="field"><label>Paid date</label><input id="billPaidDate" type="date"></div><div class="field"><label>Frequency</label><select id="billFreq"><option>Monthly</option><option>Weekly</option><option>Yearly</option><option>One-time</option></select></div>
+      <div class="field"><label>For</label><select id="billFor" onchange="toggleBillPerson()"><option>Home</option><option>Person</option></select></div><div class="field hidden" id="billPersonWrap"><label>Person / mobile name</label><input id="billPersonText" placeholder="Type person name"></div>
+      <div class="field"><label>Paid?</label><select id="billPaid"><option>No</option><option>Yes</option></select></div><div class="field"><label>Payment method</label><select id="billAccount"><option>Cash</option><option>Bank</option><option>GPay</option><option>Net Banking</option></select></div>
+      <div class="full"><label class="btn secondary" style="display:inline-block">Upload bill proof<input id="billProof" type="file" accept="image/*,.pdf" hidden onchange="handleBillProof(event)"></label> <button class="btn" onclick="saveBill()">Save Bill</button></div>
+    </div></div><div id="billList" class="list"></div>
+  </div>
+
+  <div id="cleaning" class="page"><div class="page-head"><div class="ph-left"><div class="ph-icon">🧹</div><div><h2>Home Cleaning Dashboard</h2><p>All home cleaning tasks, including garden areas</p></div></div><button class="ph-home" onclick="goHome()">⌂ Home</button></div>
+    <div class="dash-strip" id="cleanDash"></div>
+    <div class="card form"><div class="formgrid">
+      <div class="field"><label>Cleaning task</label><select id="cTask"><option>Room cleaning</option><option>Bedroom cleaning</option><option>Hall cleaning</option><option>Living room cleaning</option><option>Kitchen cleaning</option><option>Bathroom cleaning</option><option>Toilet cleaning</option><option>Balcony cleaning</option><option>Terrace cleaning</option><option>Garden cleaning</option><option>Front yard cleaning</option><option>Back yard cleaning</option><option>Window cleaning</option><option>Door cleaning</option><option>Fan cleaning</option><option>Floor deep cleaning</option><option>Furniture cleaning</option><option>Fridge cleaning</option><option>Other</option></select></div>
+      <div class="field"><label>Frequency</label><select id="cFreq"><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Every 2 months</option><option>Every 3 months</option><option>Every 6 months</option><option>Yearly</option><option>One-time</option><option>None</option></select></div>
+      <div class="field"><label>Completed date</label><input id="cDoneDate" type="date"></div><div class="field"><label>Next due date</label><input id="cDue" type="date"></div>
+      <div class="field"><label>Area / details</label><input id="cArea" placeholder="Optional room / area"></div>
+      <div class="full"><button class="btn" onclick="saveCleaning()">Save Cleaning Task</button></div>
+    </div></div><div id="cleanList" class="list"></div>
+  </div>
+
+  <div id="savings" class="page"><div class="page-head" data-head="savings"><div class="ph-left"><div class="ph-icon">💰</div><div><h2>Savings & Future Needs Dashboard</h2><p>Existing savings, goals and weekly/monthly allocation</p></div></div><button class="ph-home" onclick="goHome()">⌂ Home</button></div><div class="dash-strip" id="savingsDash"></div><div class="toolbar"><button class="btn" onclick="toggleForm('savingForm')">+ Add Saving / Goal</button></div><div id="savingForm" class="card form hidden"><h3>Saving details</h3><div class="formgrid"><div class="field"><label>Entry type</label><select id="sType"><option>Existing saving</option><option>Future goal</option></select></div><div class="field"><label>Saving / goal name</label><input id="sPurpose" placeholder="Gold, Post Office RD, Trip, Dress, Home decoration..."></div><div class="field"><label>Amount already saved / monthly amount</label><input id="sAmount" type="number" min="0"></div><div class="field"><label>Target amount</label><input id="sTarget" type="number" min="0"></div><div class="field"><label>Goal period</label><select id="sFreq"><option>Monthly</option><option>Yearly</option><option>One-time</option></select></div><div class="field"><label>Target date</label><input id="sTargetDate" type="date"></div><div class="field"><label>Date</label><input id="sDate" type="date"></div><div class="field"><label>Account / place</label><input id="sAccount" placeholder="Bank, Gold, Post Office RD, Cash..."></div><div class="full"><button class="btn" onclick="saveSaving()">Save</button></div></div></div><div id="savingList" class="list"></div></div>
+
+  <div id="amc" class="page"><div class="page-head" data-head="amc"><div class="ph-left"><div class="ph-icon">🛠️</div><div><h2>AMC & Home Appliance Service Dashboard</h2><p>AC, fridge, washing machine and other appliance service reminders</p></div></div><button class="ph-home" onclick="goHome()">⌂ Home</button></div><div class="dash-strip" id="amcDash"></div><div class="toolbar"><button class="btn" onclick="toggleForm('amcForm')">+ Add AMC / Service</button></div><div id="amcForm" class="card form hidden"><h3>Service details</h3><div class="formgrid"><div class="field"><label>Appliance / service</label><select id="amcName"><option>AC</option><option>Refrigerator / Fridge</option><option>Washing Machine</option><option>RO / Water Purifier</option><option>Chimney</option><option>Gas Stove</option><option>Microwave Oven</option><option>Dishwasher</option><option>TV</option><option>Water Heater / Geyser</option><option>Water Tank</option><option>Pest Control</option><option>Plumbing</option><option>Electrical</option><option>Other</option></select></div><div class="field"><label>Custom appliance name</label><input id="amcCustom" placeholder="Optional"></div><div class="field"><label>Provider / service centre</label><input id="amcProvider"></div><div class="field"><label>Amount</label><input id="amcAmount" type="number"></div><div class="field"><label>Purchase / start date</label><input id="amcStart" type="date"></div><div class="field"><label>Last / service date</label><input id="amcServiceDate" type="date"></div><div class="field"><label>Next service date</label><input id="amcDue" type="date"></div><div class="field"><label>Repeat after</label><select id="amcFreq"><option value="1">Every 1 month</option><option value="2">Every 2 months</option><option value="3">Every 3 months</option><option value="6">Every 6 months</option><option value="12">Every 12 months</option><option value="0">None / No next service</option></select></div><div class="field"><label>Reminder mode</label><select id="amcReminderMode"><option value="date">Exact date</option><option value="month">Month-wise</option></select></div><div class="field"><label>Person (optional)</label><select id="amcPerson"></select></div><div class="field"><label>Status</label><select id="amcStatus"><option>Active</option><option>Pending renewal</option><option>Completed</option></select></div><div class="full"><button class="btn" onclick="saveAMC()">Save Service</button></div></div></div><div id="amcList" class="list"></div></div>
+
+  <div id="medical" class="page"><div class="page-head"><div class="ph-left"><div class="ph-icon">🩺</div><div><h2>Medical Expenses Dashboard</h2><p>Track medicines, doctor visits, tests and treatment costs</p></div></div><button class="ph-home" onclick="goHome()">⌂ Home</button></div><div class="dash-strip" id="medicalDash"></div><div class="card form"><div class="formgrid"><div class="field"><label>Medical type</label><select id="medType"><option>Doctor consultation</option><option>Medicine</option><option>Lab test</option><option>Scan / X-ray</option><option>Hospital</option><option>Dental</option><option>Insurance</option><option>Other</option></select></div><div class="field"><label>Date</label><input id="medDate" type="date"></div><div class="field"><label>Amount</label><input id="medAmount" type="number"></div><div class="field"><label>Payment mode</label><select id="medAccount"><option>Cash</option><option>Bank</option><option>GPay</option><option>Net Banking</option></select></div><div class="field full"><button class="btn" onclick="saveMedical()">Save Medical Expense</button></div></div></div><div id="medicalList" class="list"></div></div>
+
+  <div id="importantDates" class="page"><div class="page-head"><div class="ph-left"><div class="ph-icon">📅</div><div><h2>Family Important Dates</h2><p>Birthdays, wedding days and special family dates</p></div></div><button class="ph-home" onclick="goHome()">⌂ Home</button></div><div class="dash-strip" id="importantDash"></div><div class="card form"><div class="formgrid"><div class="field"><label>Family member <i class="req">*</i></label><input id="idPerson" placeholder="Enter family member name"></div><div class="field"><label>Date type</label><select id="idType"><option>Birthday</option><option>Wedding Day</option><option>Anniversary</option><option>Special Day</option><option>Other</option></select></div><div class="field"><label>Date <i class="req">*</i></label><input id="idDate" type="date"></div><div class="field"><label>Reminder</label><select id="idReminder"><option>On the day</option><option>1 day before</option><option>3 days before</option><option>7 days before</option></select></div><div class="field full"><label>Note</label><input id="idNote" placeholder="Optional note / plan / gift idea"></div><div class="field full"><button class="btn" onclick="saveImportantDate()">Save Important Date</button></div></div></div><div id="importantList" class="list"></div></div>
+
+  <div id="notes" class="page"><div class="page-head"><div class="ph-left"><div class="ph-icon">🔔</div><div><h2>Notes & Reminders</h2><p>Save things to buy, do or remember later</p></div></div><button class="ph-home" onclick="goHome()">⌂ Home</button></div><div class="dash-strip" id="notesDash"></div><div class="card form"><div class="formgrid"><div class="field"><label>Note / Reminder <i class="req">*</i></label><input id="noteTitle" placeholder="Buy something / Call someone / Do a task..."></div><div class="field"><label>Reminder date</label><input id="noteDate" type="date"></div><div class="field"><label>Reminder time</label><input id="noteTime" type="time"></div><div class="field"><label>Repeat</label><select id="noteRepeat"><option>None</option><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Yearly</option></select></div><div class="field full"><label>Details</label><textarea id="noteDetails" placeholder="Optional details"></textarea></div><div class="field full"><button class="btn" onclick="saveNoteReminder()">Save Reminder</button></div></div></div><div id="notesList" class="list"></div></div>
+
+  <div id="reports" class="page"><button class="back" onclick="goHome()">← Home</button><h2>Monthly Reports & History</h2>
+    <div class="toolbar"><select class="select" id="reportMonth" onchange="renderReports()"></select></div>
+    <div class="toolbar"><button class="btn" onclick="exportMonthlyCSV()">Download Monthly Report (Excel-compatible CSV)</button></div><div id="reportContent"></div>
+  </div>
+
+  <div id="settings" class="page"><button class="back" onclick="goHome()">← Home</button><h2>Settings & Backup</h2>
+    <div class="card form"><h3>Family members</h3><div class="toolbar"><input id="newPerson" class="select" placeholder="Enter name"><button class="btn" onclick="addPerson()">Add Person</button></div><div id="peopleList"></div></div>
+    <div class="card form"><h3>Data backup</h3><p style="color:var(--muted);font-size:12px">Export a complete JSON backup. Import it later to restore your household data on this device.</p><button class="btn" onclick="exportData()">Export Backup</button> <label class="btn secondary" style="display:inline-block">Import Backup<input type="file" accept=".json" hidden onchange="importData(event)"></label></div>
+  </div>
+</div>
+
+<div id="menu" class="menu" onclick="if(event.target.id==='menu')closeMenu()">
+ <div class="drawer"><button class="iconbtn" onclick="closeMenu()">×</button><h2>Main Menu</h2>
+  <div class="menugroup"><label>MY HOME</label>
+   <div class="menuitem" onclick="showPage('cleaning')">🏠 Home & Garden</div>
+   <div class="menuitem" onclick="showPage('importantDates')">📅 Family Important Dates</div>
+   <div class="menuitem" onclick="showPage('notes')">🔔 Notes & Reminders</div>
+  </div>
+  <div class="menugroup"><label>MONEY & BUDGET</label>
+   <div class="menuitem" onclick="showPage('money')">💰 Income & Expenses</div><div class="menuitem" onclick="showPage('budget')">📊 Monthly Budget</div><div class="menuitem" onclick="showPage('loans')">💳 Loans & EMI</div><div class="menuitem" onclick="showPage('bills')">🧾 Bills & Payments</div><div class="menuitem" onclick="showPage('savings')">💰 Savings</div><div class="menuitem" onclick="showPage('amc')">🛠️ AMC & Renewals</div><div class="menuitem" onclick="showPage('medical')">🩺 Medical Expenses</div>
+  </div>
+  <div class="menugroup"><label>ACCOUNTS</label><div class="menuitem" onclick="showPage('accounts')">🏦 Family Bank Accounts</div></div>
+  <div class="menugroup"><label>SHOPPING & KITCHEN</label><div class="menuitem" onclick="showPage('grocery')">🛒 Grocery & Shopping</div></div>
+  <div class="menugroup"><label>REPORTS</label><div class="menuitem" onclick="showPage('reports')">📚 Monthly Reports & History</div></div>
+  <div class="menugroup"><label>SETTINGS</label><div class="menuitem" onclick="showPage('settings')">⚙️ Family & Backup</div></div>
+ </div>
+</div>
+
+<script>
+const KEY='smartHouseholdManager_v1';
+const todayISO=()=>new Date().toISOString().slice(0,10);
+const monthKey=d=>String(d||todayISO()).slice(0,7);
+const money=n=>'₹'+Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:2});
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+let db=JSON.parse(localStorage.getItem(KEY)||'null')||{
+ people:['Me','Husband'], income:[], expenses:[], budgets:{}, loans:[], loanPayments:[], accounts:[], accountLedger:[],
+ grocery:[], bills:[], cleaning:[], savings:[], amc:[], reports:{}, medical:[], archivedMonths:{}
+};
+let currentMoney='dailyIncome', currentGrocery='pooja', currentClean='home';
+db.savings=db.savings||[]; db.amc=db.amc||[]; db.medical=db.medical||[]; db.archivedMonths=db.archivedMonths||{}; db.importantDates=db.importantDates||[]; db.notes=db.notes||[];
+
+function save(){localStorage.setItem(KEY,JSON.stringify(db)); updateHome();}
+
+function fmtDate(d){if(!d)return '';let x=new Date(d+'T00:00:00');return x.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}
+function pageDashboard(id){
+ const info={
+  money:['💰','Money Dashboard','Income and expenses at a glance'],budget:['📊','Budget Dashboard','Monthly plan and spending control'],loans:['💳','Loans Dashboard','Outstanding loans, interest and payments'],accounts:['🏦','Accounts Dashboard','Family accounts and balances'],grocery:['🛒','Grocery Dashboard','Shopping categories and spending'],bills:['🧾','Bills Dashboard','Upcoming bills and payment status'],cleaning:['🧹','Home & Garden Dashboard','Cleaning, garden and maintenance'],reports:['📚','Reports Dashboard','Monthly history and household summary'],settings:['⚙️','Settings Dashboard','Family setup and backup'],importantDates:['📅','Family Important Dates','Birthdays, anniversaries and special dates'],notes:['🔔','Notes & Reminders','Things to remember and do'],savings:['💰','Savings Dashboard','Track savings and goals'],amc:['🛠️','AMC Dashboard','Maintenance contracts and renewals']};
+ const x=info[id]; if(!x)return; const page=document.getElementById(id); if(!page)return;
+ let head=page.querySelector('.page-head');
+ if(!head){head=document.createElement('div');head.className='page-head';head.dataset.head=id;head.innerHTML=`<div class="ph-left"><div class="ph-icon">${x[0]}</div><div><h2>${x[1]}</h2><p>${x[2]}</p></div></div><button class="ph-home" onclick="goHome()">⌂ Home</button>`; page.prepend(head); const old=page.querySelector(':scope > h2'); if(old)old.style.display='none'; const back=page.querySelector(':scope > .back'); if(back)back.style.display='none'; }
+}
+function showPage(id){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ const target=document.getElementById(id); if(!target)return; target.classList.add('active'); closeMenu(); pageDashboard(id);
+ if(id==='money')renderMoney(); if(id==='budget')renderBudget(); if(id==='loans'){fillPeople('loanPerson');fillPeople('lPerson');renderLoans()}
+ if(id==='accounts'){let s=document.getElementById('accountPerson');if(s){let names=[...new Set(db.accounts.map(a=>a.person).filter(Boolean))];s.innerHTML='<option value="all">All accounts</option>'+names.map(p=>`<option value="${esc(p)}">${esc(p)}</option>`).join('')}renderAccounts();toggleUPIField()}
+ if(id==='grocery')renderGrocery(); if(id==='bills'){renderBills()}
+ if(id==='cleaning')renderCleaning(); if(id==='reports')renderReports(); if(id==='settings')renderPeople();
+ if(id==='savings')renderSavings(); if(id==='amc'){fillPeople('amcPerson');renderAMC()} if(id==='medical')renderMedical(); if(id==='importantDates')renderImportantDates(); if(id==='notes')renderNotes();
+ window.scrollTo({top:0,behavior:'smooth'}); setTimeout(showOverallReminders,120);
+}
+function goHome(){showPage('home')}
+function openMenu(){document.getElementById('menu').classList.add('open')}
+function closeMenu(){document.getElementById('menu').classList.remove('open')}
+function toggleForm(id){document.getElementById(id).classList.toggle('hidden')}
+function fillPeople(id){
+ let s=document.getElementById(id); if(!s)return; let old=s.value;
+ s.innerHTML='<option value="all">All people</option>'+db.people.map(p=>`<option value="${esc(p)}">${esc(p)}</option>`).join('');
+ if([...s.options].some(o=>o.value===old))s.value=old;
+}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function greeting(){let h=new Date().getHours();return h<12?'Good Morning 👋':h<17?'Good Afternoon ☀️':'Good Evening 🌙'}
+function updateHome(){
+ document.getElementById('greeting').textContent=greeting();
+ document.getElementById('todayDate').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+ if(typeof document.getElementById('todayBox')!=='undefined' && document.getElementById('todayBox')){}
+}
+
+function getBudget(m){return db.budgets[m]||{income:0,fixed:0,house:0,savings:0,grocery:0,other:0}}
+function monthIncome(m){return db.income.filter(x=>x.month===m).reduce((a,x)=>a+Number(x.amount||0),0)}
+function monthExpenses(m){return db.expenses.filter(x=>x.month===m).reduce((a,x)=>a+Number(x.amount||0),0)}
+function moneyMode(mode,btn){currentMoney=mode;document.querySelectorAll('#money .tabs .tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');renderMoney()}
+function setMoneyPeriod(v){currentMoney=v;renderMoney()}
+function renderMoney(){
+ let isInc=currentMoney==='income', isDaily=(document.getElementById('moneyPeriod')?.value||'daily')==='daily';
+ let title=isInc?(isDaily?'Daily Income':'Monthly Income'):(isDaily?'Daily Expenses':'Monthly Expenses');
+ let m=monthKey();
+ let inc=monthIncome(m), exp=monthExpenses(m), dailyI=db.income.filter(x=>x.month===m&&x.kind==='daily').reduce((a,x)=>a+Number(x.amount||0),0), monthlyI=db.income.filter(x=>x.month===m&&x.kind==='monthly').reduce((a,x)=>a+Number(x.amount||0),0), dailyE=db.expenses.filter(x=>x.month===m&&x.kind==='daily').reduce((a,x)=>a+Number(x.amount||0),0), monthlyE=db.expenses.filter(x=>x.month===m&&x.kind==='monthly').reduce((a,x)=>a+Number(x.amount||0),0);
+ let d=document.getElementById('moneyDash'); if(d)d.innerHTML=`<div class="dash-mini"><small>Daily Income</small><strong>${money(dailyI)}</strong></div><div class="dash-mini"><small>Monthly Income</small><strong>${money(monthlyI)}</strong></div><div class="dash-mini"><small>Daily Expenses</small><strong>${money(dailyE)}</strong></div><div class="dash-mini"><small>Monthly Expenses</small><strong>${money(monthlyE)}</strong></div><div class="dash-mini"><small>Balance</small><strong>${money(inc-exp)}</strong></div>`;
+ document.getElementById('moneyForm').innerHTML=`<div class="card form"><h3>${title}</h3><div class="formgrid"><div class="field"><label>Date</label><input id="mDate" type="date" value="${todayISO()}"></div><div class="field"><label>Source / Category</label><select id="mCat">${(isInc?['Salary','Business','Freelance','Rent received','Interest received','Other income']:['Grocery','EB / Electricity','Water','Gas','Recharge','Travel','Medical','Home','Shopping','Loan payment','Other expense']).map(x=>`<option>${x}</option>`).join('')}</select></div><div class="field"><label>Amount</label><input id="mAmount" type="number"></div><div class="field"><label>Account / payment method</label><select id="mAccount"><option>Cash</option><option>Bank</option><option>GPay</option><option>Net Banking</option></select></div><div class="field full"><button class="btn" onclick="saveMoneyEntry()">Save ${isInc?'Income':'Expense'}</button></div></div></div>`;
+ let arr=(isInc?db.income:db.expenses).filter(x=>isDaily?x.kind==='daily':x.kind==='monthly').sort((a,b)=>b.date.localeCompare(a.date));
+ document.getElementById('moneyList').innerHTML=arr.length?arr.map(x=>`<div class="card rowcard"><div><h4>${esc(x.category)} · ${money(x.amount)}</h4><p>${fmtDate(x.date)} · ${esc(x.account||'')}${x.proof?' · 📎 Proof attached':''}</p></div><div class="actions"><button class="mini del" onclick="deleteMoney('${x.id}',${isInc})">Delete</button></div></div>`).join(''):'<div class="empty">No entries in this view yet.</div>';
+}
+function saveMoneyEntry(){let isInc=currentMoney==='income',kind=(document.getElementById('moneyPeriod')?.value||'daily');let date=document.getElementById('mDate').value||todayISO(),obj={id:uid(),date,month:monthKey(date),category:document.getElementById('mCat').value,amount:Number(document.getElementById('mAmount').value||0),account:document.getElementById('mAccount').value,kind,proof:window.pendingMoneyProof||''};if(!obj.amount)return alert('Enter an amount.');(isInc?db.income:db.expenses).push(obj);window.pendingMoneyProof='';save();renderMoney()}
+function handleMoneyProof(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{window.pendingMoneyProof=r.result;alert('Proof attached. Now enter the amount and save after checking the details.');};r.readAsDataURL(f)}
+function deleteMoney(id,isInc){if(!confirm('Delete this entry?'))return;if(isInc)db.income=db.income.filter(x=>x.id!==id);else db.expenses=db.expenses.filter(x=>x.id!==id);save();renderMoney()}
+function saveBudget(){
+ let m=document.getElementById('budgetMonth').value||monthKey(); db.budgets[m]={income:Number(bIncome.value||0),fixed:Number(bFixed.value||0),house:Number(bHouse.value||0),savings:Number(bSave.value||0),grocery:Number(bGrocery.value||0),other:Number(bOther.value||0)};save();renderBudget()
+}
+function populateMonths(id){
+ let s=document.getElementById(id), cur=s.value||monthKey(), months=[];let d=new Date();d.setDate(1);
+ for(let i=0;i<24;i++){let m=d.toISOString().slice(0,7);months.push(m);d.setMonth(d.getMonth()-1)}
+ s.innerHTML=months.map(m=>`<option value="${m}">${new Date(m+'-01').toLocaleDateString('en-IN',{month:'long',year:'numeric'})}</option>`).join('');s.value=months.includes(cur)?cur:months[0]
+}
+function renderBudget(){
+ populateMonths('budgetMonth');let m=document.getElementById('budgetMonth').value,b=getBudget(m);
+ bIncome.value=b.income;bFixed.value=b.fixed;bHouse.value=b.house;bSave.value=b.savings;bGrocery.value=b.grocery;bOther.value=b.other;
+ let spent=monthExpenses(m),flex=b.income-b.fixed-b.house-b.savings,remaining=b.income-spent;
+ let cls=remaining>=0?'good':'bad';
+ document.getElementById('budgetMetrics').innerHTML=`<div class="card metric"><small>Income</small><strong>${money(b.income)}</strong></div><div class="card metric"><small>Spent</small><strong>${money(spent)}</strong></div><div class="card metric ${cls}"><small>After spending</small><strong>${money(remaining)}</strong></div><div class="card metric ${flex>=0?'good':'bad'}"><small>Flexible plan</small><strong>${money(flex)}</strong></div>`;
+ let cat={};db.expenses.filter(x=>x.month===m).forEach(x=>cat[x.category]=(cat[x.category]||0)+Number(x.amount||0));
+ let warn= b.income&&spent>b.income?`<div class="notice" style="background:var(--red)">🔴 Total spending is above income by ${money(spent-b.income)}.</div>`:'';
+ document.getElementById('budgetDetail').innerHTML=warn+`<div class="card form"><h3>Category spending</h3>${Object.keys(cat).length?Object.entries(cat).map(([k,v])=>`<div class="task"><span>${esc(k)}</span><b>${money(v)}</b></div>`).join(''):'<div class="empty">No expenses recorded for this month.</div>'}</div>`;
+}
+function saveLoan(){
+ let obj={id:uid(),person:lPerson.value,name:lName.value||'Loan',lender:lender.value,principal:Number(lPrincipal.value||0),start:lStart.value||todayISO(),rate:Number(lRate.value||0),rateType:lRateType.value,freq:lFreq.value,emi:Number(lEmi.value||0),due:lDue.value||todayISO(),payments:[],interestMonths:{}};
+ if(!obj.principal)return alert('Enter principal amount.');
+ db.loans.push(obj);save();renderLoans();document.getElementById('loanForm').classList.add('hidden');
+}
+function calcInterest(loan,m){
+ if(loan.freq==='none')return 0;
+ if(loan.freq==='monthly'||loan.freq==='yearly'){
+   if(loan.rateType==='amount') return loan.freq==='monthly'?loan.rate:Number(loan.rate||0);
+   return loan.principal*(loan.rate/100)/(loan.freq==='yearly'?1:12);
+ }
+ if(loan.freq==='weekly'){
+   if(loan.rateType==='amount')return loan.rate;
+   return loan.principal*(loan.rate/100);
+ }
+ return 0;
+}
+function renderLoans(){
+ let person=document.getElementById('loanPerson').value||'all', arr=db.loans.filter(l=>person==='all'||l.person===person);
+ document.getElementById('loanList').innerHTML=arr.length?arr.map(l=>{
+   let pays=db.loanPayments.filter(p=>p.loanId===l.id), principalPaid=pays.reduce((a,p)=>a+p.principal,0), interestPaid=pays.reduce((a,p)=>a+p.interest,0), bal=Math.max(0,l.principal-principalPaid);
+   let pendingInterest=calcInterest(l,monthKey())-(l.interestMonths?.[monthKey()]||0);
+   return `<div class="card rowcard"><div style="flex:1"><h4>💳 ${esc(l.name)} · ${esc(l.person)} · ${money(bal)} remaining</h4><p>${esc(l.lender||'')} · Interest: ${money(calcInterest(l,monthKey()))}/${l.freq} · Principal paid ${money(principalPaid)} · Interest paid ${money(interestPaid)} · Next due ${fmtDate(l.due)}</p>
+   <div class="notice" style="margin-top:9px">${pendingInterest>0?`This month's interest not yet allocated: <b>${money(pendingInterest)}</b>. Once allocated, further payments this month are principal-only.`:'This month’s interest has already been allocated. Further payments this month are principal-only.'}</div></div>
+   <div class="actions"><button class="mini" onclick="payLoan('${l.id}')">+ Payment</button><button class="mini del" onclick="deleteLoan('${l.id}')">Delete</button></div></div>`
+ }).join(''):'<div class="empty">No loans for this person.</div>';
+}
+function payLoan(id){
+ let l=db.loans.find(x=>x.id===id); if(!l)return; let amount=Number(prompt(`Enter payment amount for ${l.name}`)||0);if(!amount)return;
+ let m=monthKey(), already=Number(l.interestMonths?.[m]||0), interest=already>0?0:calcInterest(l,m), principal=Math.max(0,amount-interest);
+ if(!l.interestMonths)l.interestMonths={}; l.interestMonths[m]=already+interest;
+ db.loanPayments.push({id:uid(),loanId:id,date:todayISO(),month:m,amount,interest,principal});
+ // Move next due forward by the loan frequency after a payment; multiple payments in the same month do not add another interest charge.
+ if(l.freq==='monthly'){let d=new Date((l.due||todayISO())+'T00:00:00');d.setMonth(d.getMonth()+1);l.due=d.toISOString().slice(0,10)}
+ else if(l.freq==='weekly'){let d=new Date((l.due||todayISO())+'T00:00:00');d.setDate(d.getDate()+7);l.due=d.toISOString().slice(0,10)}
+ else if(l.freq==='yearly'){let d=new Date((l.due||todayISO())+'T00:00:00');d.setFullYear(d.getFullYear()+1);l.due=d.toISOString().slice(0,10)}
+ // Record the payment as an expense so budget and reports see it.
+ db.expenses.push({id:uid(),date:todayISO(),month:m,person:l.person,category:'Loan Payment - '+l.name,amount,account:'',kind:'daily'});
+ save();renderLoans();alert(`Payment saved.\nInterest: ${money(interest)}\nPrincipal: ${money(principal)}\nRemaining: ${money(Math.max(0,l.principal-db.loanPayments.filter(p=>p.loanId===id).reduce((a,p)=>a+p.principal,0)))}`);
+}
+function deleteLoan(id){if(!confirm('Delete this loan and its payment history?'))return;db.loans=db.loans.filter(x=>x.id!==id);db.loanPayments=db.loanPayments.filter(x=>x.loanId!==id);save();renderLoans()}
+const items={pooja:['Camphor','Agarbathi','Oil','Wick','Flowers','Kumkum','Turmeric'],kitchen:['Rice','Dal','Oil','Vegetables','Fruits','Spices','Flour','Milk','Eggs','Fish'],home:['Detergent','Dishwash','Soap','Tissue','Cleaning liquid','Garbage bags','Bathroom items','Other household item']};
+function gTab(t,btn){currentGrocery=t;document.querySelectorAll('#grocery .tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');renderGrocery()}
+function renderGrocery(){
+ gItem.innerHTML=items[currentGrocery].map(x=>`<option>${x}</option>`).join('')+'<option value="__custom">+ Custom item</option>';
+ let arr=db.grocery.filter(x=>x.category===currentGrocery).sort((a,b)=>b.date.localeCompare(a.date));
+ groceryList.innerHTML=arr.length?arr.map(x=>`<div class="card rowcard"><div><h4>${x.bought?'☑':'☐'} ${esc(x.item)} · ${x.qty} ${esc(x.unit)}</h4><p>${money(x.actual||x.estimated)} · ${fmtDate(x.date)}</p></div><button class="mini del" onclick="deleteGrocery('${x.id}')">Delete</button></div>`).join(''):'<div class="empty">No items in this category.</div>';
+}
+function saveGrocery(){
+ let item=gItem.value==='__custom'?(gCustomText.value||'Custom item'):gItem.value;
+ db.grocery.push({id:uid(),category:currentGrocery,item,qty:Number(gQty.value||1),unit:gUnit.value,estimated:Number(gEst.value||0),actual:Number(gActual.value||0),bought:gBought.value==='Yes',date:todayISO(),month:monthKey()});save();renderGrocery()
+}
+function deleteGrocery(id){db.grocery=db.grocery.filter(x=>x.id!==id);save();renderGrocery()}
+function billTypeChanged(){}
+function toggleBillPerson(){document.getElementById('billPersonWrap').classList.toggle('hidden',document.getElementById('billFor').value!=='Person')}
+function handleBillProof(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{window.pendingBillProof=r.result;alert('Bill proof attached. Enter/check amount and save.');};r.readAsDataURL(f)}
+function saveBill(){let custom=document.getElementById('billCustom').value.trim(),name=custom||document.getElementById('billName').value;let forType=document.getElementById('billFor').value;let person=forType==='Person'?(document.getElementById('billPersonText').value.trim()||'Person'):'Home';db.bills.push({id:uid(),name,amount:Number(document.getElementById('billAmount').value||0),due:document.getElementById('billDue').value,paidDate:document.getElementById('billPaidDate').value,frequency:document.getElementById('billFreq').value,person,paid:document.getElementById('billPaid').value==='Yes',account:document.getElementById('billAccount').value,proof:window.pendingBillProof||''});window.pendingBillProof='';save();renderBills()}
+function renderBills(){let el=document.getElementById('billList');if(!el)return;let arr=db.bills.slice().sort((a,b)=>(a.due||'').localeCompare(b.due||''));let d=document.getElementById('billDash');if(d){let pending=arr.filter(x=>!x.paid),due=pending.filter(x=>x.due&&x.due<todayISO()).length;d.innerHTML=`<div class="dash-mini"><small>Pending</small><strong>${pending.length}</strong></div><div class="dash-mini"><small>Due / overdue</small><strong>${due}</strong></div><div class="dash-mini"><small>This month</small><strong>${money(arr.filter(x=>monthKey(x.due)===monthKey()).reduce((a,x)=>a+Number(x.amount||0),0))}</strong></div>`}el.innerHTML=arr.length?arr.map(x=>`<div class="card rowcard"><div><h4>🧾 ${esc(x.name)} · ${money(x.amount)}</h4><p>${esc(x.person)} · Due ${fmtDate(x.due)} · ${x.paid?'Paid '+fmtDate(x.paidDate):'Pending'} · ${esc(x.account||'')}</p></div></div>`).join(''):'<div class="empty">No bills saved yet.</div>'}
+
+function toggleUPIField(){let yes=document.getElementById('aGpay').value==='Yes';let f=document.getElementById('upiField'),g=document.getElementById('gpayBalanceField');if(f)f.classList.toggle('hidden',!yes);if(g)g.classList.toggle('hidden',!yes)}
+function saveAccount(){let person=(document.getElementById('aPerson').value||'').trim();if(!person)return alert('Type account holder name.');let gpay=document.getElementById('aGpay').value==='Yes';let opening=Number(document.getElementById('aBalance').value||0);db.accounts.push({id:uid(),person,bank:document.getElementById('aBank').value.trim(),type:document.getElementById('aType').value,number:document.getElementById('aNumber').value.trim(),ifsc:document.getElementById('aIfsc').value.trim(),cif:document.getElementById('aCif').value.trim(),upi:gpay?document.getElementById('aUpi').value.trim():'',gpay:gpay?'Yes':'No',atm:document.getElementById('aAtm').value,balance:opening,opening,gpayBalance:gpay?Number(document.getElementById('aGpayBalance').value||0):0,gpaySecret:document.getElementById('aGpaySecret').value,atmSecret:document.getElementById('aAtmSecret').value});save();document.getElementById('accountForm').classList.add('hidden');renderAccounts()}
+function renderAccounts(){let filter=document.getElementById('accountPerson')?.value||'all',arr=db.accounts.filter(a=>filter==='all'||a.person===filter),bank=arr.reduce((a,x)=>a+Number(x.balance||0),0),gp=arr.reduce((a,x)=>a+(x.gpay==='Yes'?Number(x.gpayBalance??x.balance??0):0),0),d=document.getElementById('accountDash');if(d)d.innerHTML=`<div class="dash-mini"><small>Bank accounts</small><strong>${arr.length}</strong></div><div class="dash-mini"><small>Bank balance</small><strong>${money(bank)}</strong></div><div class="dash-mini"><small>GPay linked</small><strong>${arr.filter(x=>x.gpay==='Yes').length}</strong></div><div class="dash-mini"><small>GPay balance</small><strong>${money(gp)}</strong></div>`;let el=document.getElementById('accountList');if(!el)return;el.innerHTML=arr.length?arr.map(x=>`<div class="card rowcard"><div><h4>🏦 ${esc(x.bank||'Bank')} · Bank ${money(x.balance)}</h4><p>${esc(x.person)} · ${esc(x.type)} · A/C ${mask(x.number)} · GPay ${x.gpay==='Yes'?money(x.gpayBalance||0):'Not linked'}</p></div><div class="actions"><button class="mini" onclick="viewLedger('${x.id}')">Ledger</button><label class="mini">Upload CSV<input type="file" accept=".csv,text/csv" hidden onchange="importStatement(event,'${x.id}')"></label></div></div>`).join(''):'<div class="empty">No accounts added yet. Add an account first; account-holder names will then appear in this filter.</div>'}
+function mask(v){v=String(v||'');return v.length>4?'•••• '+v.slice(-4):v}
+function viewLedger(id){let x=db.accounts.find(a=>a.id===id);if(!x)return;let rows=db.accountLedger.filter(r=>r.accountId===id);alert(`${x.bank||'Account'}\n\nBank balance: ${money(x.balance)}\nGPay balance: ${x.gpay==='Yes'?money(x.gpayBalance||0):'Not linked'}\nLedger entries: ${rows.length}\n\n${rows.slice(-10).map(r=>`${r.date} | ${r.description||r.type||''} | ${money(r.amount||0)}`).join('\n')||'No ledger entries yet.'}\n\nCSV statement import is available from the account card; check the preview before confirming.`)}
+function importStatement(e,accountId){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{let text=r.result||'',lines=text.split(/\r?\n/).filter(Boolean);if(lines.length<2)return alert('Statement CSV is empty.');let headers=lines[0].split(',').map(x=>x.trim().toLowerCase()),dateI=headers.findIndex(x=>x.includes('date')),descI=headers.findIndex(x=>x.includes('description')||x.includes('narration')),creditI=headers.findIndex(x=>x.includes('credit')),debitI=headers.findIndex(x=>x.includes('debit')),amountI=headers.findIndex(x=>x==='amount'||x.includes('amount'));let rows=lines.slice(1).map(line=>{let c=line.split(',');let credit=creditI>=0?Number(String(c[creditI]||'').replace(/[^0-9.-]/g,'')):0,debit=debitI>=0?Number(String(c[debitI]||'').replace(/[^0-9.-]/g,'')):0,amount=amountI>=0?Number(String(c[amountI]||'').replace(/[^0-9.-]/g,'')):Math.max(credit,debit);return{date:c[dateI>=0?dateI:0]||todayISO(),description:c[descI>=0?descI:1]||'Statement transaction',credit,debit,amount,type:credit?'Credit':'Debit',accountId}}).filter(x=>x.amount);if(!rows.length)return alert('Could not detect transaction amounts. Use CSV columns like Date, Description, Credit, Debit or Amount.');let preview=rows.slice(0,8).map(x=>`${x.date} | ${x.description} | ${x.credit?'+':''}${x.amount}`).join('\n');if(!confirm(`Found ${rows.length} transactions.\n\nPreview:\n${preview}\n\nImport these into this account ledger?`))return;db.accountLedger.push(...rows);let a=db.accounts.find(x=>x.id===accountId);if(a){let net=rows.reduce((sum,x)=>sum+Number(x.credit||0)-Number(x.debit||0),0);a.balance=Number(a.balance||0)+net;if(a.gpay==='Yes')a.gpayBalance=Number(a.gpayBalance||0)}save();renderAccounts();alert('Statement imported successfully.');};r.readAsText(f)}
+
+function renderReports(){
+ populateMonths('reportMonth');let m=reportMonth.value;
+ let b=getBudget(m),inc=monthIncome(m),exp=monthExpenses(m),saving=inc-exp;
+ let dailyInc=db.income.filter(x=>x.month===m&&x.kind==='daily').reduce((a,x)=>a+Number(x.amount),0);
+ let monthlyInc=db.income.filter(x=>x.month===m&&x.kind==='monthly').reduce((a,x)=>a+Number(x.amount),0);
+ let dailyExp=db.expenses.filter(x=>x.month===m&&x.kind==='daily').reduce((a,x)=>a+Number(x.amount),0);
+ let monthlyExp=db.expenses.filter(x=>x.month===m&&x.kind==='monthly').reduce((a,x)=>a+Number(x.amount),0);
+ document.getElementById('reportContent').innerHTML=`<div class="metrics"><div class="card metric"><small>Total income</small><strong>${money(inc)}</strong></div><div class="card metric"><small>Total expenses</small><strong>${money(exp)}</strong></div><div class="card metric ${saving>=0?'good':'bad'}"><small>Net savings</small><strong>${money(saving)}</strong></div><div class="card metric"><small>Target</small><strong>${money(b.savings)}</strong></div></div>
+ <div class="card form"><h3>${new Date(m+'-01').toLocaleDateString('en-IN',{month:'long',year:'numeric'})} — Saved Monthly Snapshot</h3>
+ <div class="task"><span>Daily income</span><b>${money(dailyInc)}</b></div><div class="task"><span>Monthly income</span><b>${money(monthlyInc)}</b></div><div class="task"><span>Daily expenses</span><b>${money(dailyExp)}</b></div><div class="task"><span>Monthly expenses</span><b>${money(monthlyExp)}</b></div>
+ <div class="task"><span>Opening balance concept</span><b>${money(getOpeningBalance(m))}</b></div><div class="task"><span>Closing balance</span><b>${money(getOpeningBalance(m)+saving)}</b></div>
+ ${saving>=b.savings?`<div class="notice">🟢 Savings target achieved by ${money(saving-b.savings)}.</div>`:`<div class="notice" style="background:var(--yellow)">🟡 You are ${money(b.savings-saving)} below the savings target.</div>`}</div>`;
+}
+function getOpeningBalance(m){
+ let d=new Date(m+'-01T00:00:00');d.setMonth(d.getMonth()-1);let prev=d.toISOString().slice(0,7);let b=getBudget(prev);return monthIncome(prev)-monthExpenses(prev);
+}
+function addPerson(){let p=(newPerson.value||'').trim();if(!p)return;if(!db.people.includes(p))db.people.push(p);newPerson.value='';save();renderPeople();fillPeople('loanPerson');fillPeople('lPerson');fillPeople('amcPerson')}
+function renderPeople(){peopleList.innerHTML=db.people.map((p,i)=>`<div class="task"><span>👤 ${esc(p)}</span>${i>1?`<button class="mini del" onclick="removePerson('${esc(p)}')">Remove</button>`:''}</div>`).join('')}
+function removePerson(p){if(!confirm('Remove this person from the family list? Existing records are not automatically deleted.'))return;db.people=db.people.filter(x=>x!==p);save();renderPeople()}
+function globalSearch(){
+ let q=(globalSearch.value||'').trim().toLowerCase();if(!q){searchResults.classList.add('hidden');return}
+ let results=[];
+ db.income.forEach(x=>{if(JSON.stringify(x).toLowerCase().includes(q))results.push(`Income: ${x.category} · ${money(x.amount)} · ${x.person}`)});
+ db.expenses.forEach(x=>{if(JSON.stringify(x).toLowerCase().includes(q))results.push(`Expense: ${x.category} · ${money(x.amount)} · ${x.person}`)});
+ db.loans.forEach(x=>{if(JSON.stringify(x).toLowerCase().includes(q))results.push(`Loan: ${x.name} · ${x.person} · ${money(x.principal)}`)});
+ db.accounts.forEach(x=>{if(JSON.stringify({...x,secret:''}).toLowerCase().includes(q))results.push(`Account: ${x.bank} · ${x.person}`)});
+ db.grocery.forEach(x=>{if(JSON.stringify(x).toLowerCase().includes(q))results.push(`Grocery: ${x.item} · ${x.category}`)});
+ db.cleaning.forEach(x=>{if(JSON.stringify(x).toLowerCase().includes(q))results.push(`Task: ${x.task} · ${x.area||''}`)});
+ searchResults.classList.remove('hidden');searchResults.innerHTML=results.length?results.slice(0,30).map(r=>`<div class="task">${esc(r)}</div>`).join(''):'<div class="empty">No matching records.</div>'
+}
+
+function dateOnly(d){return d?String(d).slice(0,10):''}
+function addMonthsDate(iso,n){let x=new Date((iso||todayISO())+'T00:00:00');x.setMonth(x.getMonth()+Number(n||0));return x.toISOString().slice(0,10)}
+function nextAnnualDate(iso){let base=new Date(iso+'T00:00:00'),now=new Date();let y=now.getFullYear();let x=new Date(y,base.getMonth(),base.getDate());if(x<new Date(now.getFullYear(),now.getMonth(),now.getDate()))x.setFullYear(y+1);return x.toISOString().slice(0,10)}
+function importantNext(x){return nextAnnualDate(x.date)}
+function saveImportantDate(){let person=document.getElementById('idPerson').value.trim(),date=document.getElementById('idDate').value;if(!person||!date)return alert('Enter family member name and date.');db.importantDates.push({id:uid(),person,type:document.getElementById('idType').value,date,reminder:document.getElementById('idReminder').value,note:document.getElementById('idNote').value.trim()});save();document.getElementById('idPerson').value='';document.getElementById('idNote').value='';renderImportantDates();}
+function deleteImportantDate(id){db.importantDates=db.importantDates.filter(x=>x.id!==id);save();renderImportantDates()}
+function renderImportantDates(){let arr=db.importantDates.slice().sort((a,b)=>importantNext(a).localeCompare(importantNext(b)));let d=document.getElementById('importantDash');if(d){let today=nextAnnualDate(todayISO()),soon=arr.filter(x=>{let n=importantNext(x),diff=Math.ceil((new Date(n)-new Date(todayISO()))/86400000);return diff>=0&&diff<=30}).length;d.innerHTML=`<div class="dash-mini"><small>Important dates</small><strong>${arr.length}</strong></div><div class="dash-mini"><small>Next 30 days</small><strong>${soon}</strong></div><div class="dash-mini"><small>Birthdays</small><strong>${arr.filter(x=>x.type==='Birthday').length}</strong></div><div class="dash-mini"><small>Wedding / Anniversary</small><strong>${arr.filter(x=>x.type==='Wedding Day'||x.type==='Anniversary').length}</strong></div>`}let el=document.getElementById('importantList');if(!el)return;el.innerHTML=arr.length?arr.map(x=>{let n=importantNext(x);return `<div class="card rowcard"><div><h4>📅 ${esc(x.person)} · ${esc(x.type)}</h4><p>${fmtDate(n)} · Reminder ${esc(x.reminder||'On the day')}${x.note?' · '+esc(x.note):''}</p></div><button class="mini del" onclick="deleteImportantDate('${x.id}')">Delete</button></div>`}).join(''):'<div class="empty">No important family dates added yet.</div>'}
+function saveNoteReminder(){let title=document.getElementById('noteTitle').value.trim();if(!title)return alert('Enter a note or reminder.');db.notes.push({id:uid(),title,date:document.getElementById('noteDate').value||'',time:document.getElementById('noteTime').value||'',repeat:document.getElementById('noteRepeat').value,details:document.getElementById('noteDetails').value.trim(),done:false,created:todayISO()});save();document.getElementById('noteTitle').value='';document.getElementById('noteDetails').value='';renderNotes()}
+function toggleNote(id){let x=db.notes.find(n=>n.id===id);if(!x)return;x.done=!x.done;save();renderNotes()}
+function deleteNote(id){db.notes=db.notes.filter(x=>x.id!==id);save();renderNotes()}
+function renderNotes(){let arr=db.notes.slice().sort((a,b)=>(a.done-b.done)||(dateOnly(a.date).localeCompare(dateOnly(b.date)))||(a.time||'').localeCompare(b.time||''));let today=todayISO(),pending=arr.filter(x=>!x.done).length,due=arr.filter(x=>!x.done&&x.date&&x.date<=today).length;let d=document.getElementById('notesDash');if(d)d.innerHTML=`<div class="dash-mini"><small>Pending</small><strong>${pending}</strong></div><div class="dash-mini"><small>Due / overdue</small><strong>${due}</strong></div><div class="dash-mini"><small>Recurring</small><strong>${arr.filter(x=>x.repeat&&x.repeat!=='None').length}</strong></div><div class="dash-mini"><small>Total notes</small><strong>${arr.length}</strong></div>`;let el=document.getElementById('notesList');if(!el)return;el.innerHTML=arr.length?arr.map(x=>`<div class="card rowcard"><div><h4>${x.done?'☑':'☐'} ${esc(x.title)}</h4><p>${x.date?fmtDate(x.date):'No date'}${x.time?' · '+x.time:''} · ${esc(x.repeat||'None')}${x.details?' · '+esc(x.details):''}</p></div><div style="display:flex;gap:6px"><button class="mini" onclick="toggleNote('${x.id}')">${x.done?'Undo':'Done'}</button><button class="mini del" onclick="deleteNote('${x.id}')">Delete</button></div></div>`).join(''):'<div class="empty">No notes or reminders saved yet.</div>'}
+function dueNoteToday(x){if(x.done||!x.date)return false;let today=todayISO();if(x.date===today||x.date<today)return true;if(x.repeat==='Daily')return true;if(x.repeat==='Weekly'){let a=new Date(x.date+'T00:00:00'),b=new Date(today+'T00:00:00');return ((b-a)/86400000)%7===0}if(x.repeat==='Monthly'){let a=new Date(x.date+'T00:00:00'),b=new Date(today+'T00:00:00');return a.getDate()===b.getDate()}if(x.repeat==='Yearly'){let a=new Date(x.date+'T00:00:00'),b=new Date(today+'T00:00:00');return a.getMonth()===b.getMonth()&&a.getDate()===b.getDate()}return false}
+function importantDue(x){let n=importantNext(x),r=Number(String(x.reminder||'On the day').match(/\d+/)?.[0]||0);let target=new Date(n+'T00:00:00');target.setDate(target.getDate()-r);return target.toISOString().slice(0,10)<=todayISO()}
+function showOverallReminders(){let notes=db.notes.filter(dueNoteToday), dates=db.importantDates.filter(importantDue), amc=(db.amc||[]).filter(x=>x.due===todayISO()&&x.status!=='Completed'), bills=(db.bills||[]).filter(x=>!x.paid&&x.due&&x.due<=todayISO()), cleaning=(db.cleaning||[]).filter(x=>!x.done&&x.due&&x.due<=todayISO());let all=[];notes.forEach(x=>all.push({i:'🔔',t:x.title,s:(x.date?fmtDate(x.date):'No date')+(x.time?' · '+x.time:'')}));dates.forEach(x=>all.push({i:'📅',t:x.person+' · '+x.type,s:fmtDate(importantNext(x))}));amc.forEach(x=>all.push({i:'🛠️',t:x.name+' service',s:'Due today'}));bills.forEach(x=>all.push({i:'🧾',t:x.name+' bill',s:'Due / overdue · '+fmtDate(x.due)}));cleaning.forEach(x=>all.push({i:'🧹',t:x.task||x.name||'Home cleaning',s:'Due / overdue · '+fmtDate(x.due)}));if(!all.length)return;let old=document.getElementById('overallReminderOverlay');if(old)old.remove();let ov=document.createElement('div');ov.id='overallReminderOverlay';ov.className='reminder-overlay';ov.innerHTML=`<div class="reminder-modal"><h3>🔔 Your Reminders</h3><p class="sub">Important things that need your attention today</p>${all.map(x=>`<div class="rem-item"><div class="rem-icon">${x.i}</div><div><strong>${esc(x.t)}</strong><small>${esc(x.s)}</small></div></div>`).join('')}<div class="rem-actions"><button class="rem-close" onclick="document.getElementById('overallReminderOverlay').remove()">Close</button></div></div>`;ov.addEventListener('click',e=>{if(e.target===ov)ov.remove()});document.body.appendChild(ov)}
+
+function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='my-home-manager-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.people||!x.income||!x.expenses)throw Error();db=x;save();alert('Backup restored successfully.');location.reload()}catch{alert('Invalid backup file.')}};r.readAsText(f)}
+function renderSavings(){const m=monthKey();const arr=db.savings.filter(x=>x.type==='Existing saving'&&monthKey(x.date)===m);const total=db.savings.filter(x=>x.type==='Existing saving').reduce((a,x)=>a+Number(x.amount||0),0);const goals=db.savings.filter(x=>x.type==='Future goal');const target=goals.reduce((a,x)=>a+Number(x.target||0),0);const d=document.getElementById('savingsDash');if(d)d.innerHTML=`<div class="dash-mini"><small>Saved total</small><strong>${money(total)}</strong></div><div class="dash-mini"><small>Goals</small><strong>${goals.length}</strong></div><div class="dash-mini"><small>Goal target</small><strong>${money(target)}</strong></div><div class="dash-mini"><small>This month saved</small><strong>${money(arr.reduce((a,x)=>a+Number(x.amount||0),0))}</strong></div>`;const el=document.getElementById('savingList');if(!el)return;let list=db.savings.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));el.innerHTML=list.length?list.map(x=>{let pct=x.target?Math.min(100,Math.round(Number(x.amount||0)/Number(x.target)*100)):0;let weekly=x.targetDate&&x.target?Math.max(0,Number(x.target)-Number(x.amount||0))/Math.max(1,Math.ceil((new Date(x.targetDate)-new Date())/(7*86400000))):0;return `<div class="card rowcard"><div><h4>💰 ${esc(x.purpose||'Saving')} · ${money(x.amount)}</h4><p>${esc(x.type||'Existing saving')} · ${fmtDate(x.date)} · ${esc(x.account||'')} ${x.target?`· Target ${money(x.target)} · ${pct}%`:''}</p>${x.type==='Future goal'&&x.target?`<div class="notice">Suggested weekly amount: <b>${money(weekly)}</b> ${x.targetDate?'until '+fmtDate(x.targetDate):''}</div>`:''}</div></div>`}).join(''):'<div class="empty">No savings or goals recorded yet.</div>'}
+function saveSaving(){const amount=Number(document.getElementById('sAmount').value||0);const purpose=document.getElementById('sPurpose').value.trim();if(!purpose)return alert('Enter saving / goal name.');if(!amount&&!Number(document.getElementById('sTarget').value||0))return alert('Enter an amount or target.');db.savings.push({id:uid(),type:document.getElementById('sType').value,amount,date:document.getElementById('sDate').value||todayISO(),purpose,target:Number(document.getElementById('sTarget').value||0),frequency:document.getElementById('sFreq').value,targetDate:document.getElementById('sTargetDate').value,account:document.getElementById('sAccount').value.trim()});save();document.getElementById('savingForm').classList.add('hidden');renderSavings()}
+function renderAMC(){const el=document.getElementById('amcList');if(!el)return;const today=todayISO();const arr=db.amc.slice().sort((a,b)=>(a.due||'').localeCompare(b.due||''));const active=arr.filter(x=>x.status==='Active').length,upcoming=arr.filter(x=>x.due&&x.due>=today&&x.due<=new Date(Date.now()+30*86400000).toISOString().slice(0,10)).length,expired=arr.filter(x=>x.due&&x.due<today&&x.frequency!=='0').length;const d=document.getElementById('amcDash');if(d)d.innerHTML=`<div class="dash-mini"><small>Active</small><strong>${active}</strong></div><div class="dash-mini"><small>Next 30 days</small><strong>${upcoming}</strong></div><div class="dash-mini"><small>Overdue</small><strong>${expired}</strong></div><div class="dash-mini"><small>Total services</small><strong>${arr.length}</strong></div>`;el.innerHTML=arr.length?arr.map(x=>`<div class="card rowcard"><div><h4>🛠️ ${esc(x.name)}${x.provider?' · '+esc(x.provider):''}</h4><p>Service ${fmtDate(x.serviceDate||x.start)} · Next ${fmtDate(x.due)||'No next service'} · Repeat ${x.frequency==='0'?'None':x.frequency+' month(s)'} · ${esc(x.reminderMode||'date')} · ${money(x.amount)}</p><span class="pill">${esc(x.status||'Active')}</span></div></div>`).join(''):'<div class="empty">No AMC / appliance service records.</div>'}
+function saveAMC(){let name=(document.getElementById('amcCustom').value.trim()||document.getElementById('amcName').value);let due=document.getElementById('amcDue').value;let freq=document.getElementById('amcFreq').value;if(!name)return alert('Select an appliance.');db.amc.push({id:uid(),name,provider:document.getElementById('amcProvider').value.trim(),amount:Number(document.getElementById('amcAmount').value||0),start:document.getElementById('amcStart').value,serviceDate:document.getElementById('amcServiceDate').value,due,frequency:freq,reminderMode:document.getElementById('amcReminderMode').value,person:document.getElementById('amcPerson').value,status:document.getElementById('amcStatus').value});save();document.getElementById('amcForm').classList.add('hidden');renderAMC()}
+function checkAMCReminders(){const today=todayISO();const due=db.amc.filter(x=>x.due===today&&x.status!=='Completed');if(due.length&&!sessionStorage.getItem('amcAlert_'+today)){sessionStorage.setItem('amcAlert_'+today,'1');alert('🛠️ AMC / Service reminder\n\n'+due.map(x=>x.name+(x.provider?' - '+x.provider:'')).join('\n')+'\n\nService is due today.');}}
+function monthlyArchive(){
+ // Preserve every month's entries in reports. Nothing is deleted when a new month starts.
+ let m=monthKey();if(!db.reports[m])db.reports[m]={created:new Date().toISOString(),note:'Monthly report is generated from preserved records.'};save()
+}
+function init(){
+ monthlyArchive();fillPeople('loanPerson');fillPeople('lPerson');fillPeople('amcPerson');
+ updateHome();
+ const menuBtn=document.querySelector('.top .iconbtn');
+ if(menuBtn) menuBtn.addEventListener('click',openMenu);
+ document.getElementById('globalSearch').addEventListener('keydown',e=>{if(e.key==='Enter')globalSearch()});
+ // Make every Home card reliably touch/clickable, including on mobile.
+ document.querySelectorAll('.homecard').forEach(card=>{card.setAttribute('role','button');card.setAttribute('tabindex','0');card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();card.click()}})});
+}
+window.openMenu=openMenu; window.closeMenu=closeMenu; window.showPage=showPage;
+init();
+checkAMCReminders();
+setTimeout(showOverallReminders,350);
+setInterval(checkAMCReminders,60000);
+</script>
+</body>
+</html>
