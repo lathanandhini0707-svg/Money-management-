@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#6d5dfc">
+<title>My Home Manager</title>
+<style>
+:root{
+  --bg:#f6f7ff;--card:#fff;--text:#20243a;--muted:#737995;--primary:#6d5dfc;
+  --primary2:#8b7fff;--soft:#eeecff;--mint:#dff8ef;--peach:#fff0e7;
+  --blue:#e7f1ff;--yellow:#fff7d8;--red:#ffe8ec;--green:#18a878;
+  --border:#e9eaf3;--shadow:0 10px 30px rgba(42,38,94,.08);--radius:20px;
+}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(145deg,#f8f8ff,#f3f8ff 45%,#f8f5ff);
+font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text)}
+button,input,select,textarea{font:inherit} button{cursor:pointer;border:0}
+.app{max-width:1100px;margin:auto;padding:18px 15px 80px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:11px}.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,var(--primary),#a69cff);display:grid;place-items:center;color:#fff;font-size:22px;box-shadow:0 9px 20px #6d5dfc33}
+.brand h1{font-size:18px;margin:0}.brand small{color:var(--muted)}
+.iconbtn{width:44px;height:44px;border-radius:14px;background:#fff;color:var(--text);box-shadow:var(--shadow);font-size:21px}
+.hero{background:linear-gradient(135deg,#6d5dfc,#8e80ff 60%,#b7b0ff);color:#fff;border-radius:28px;padding:23px;box-shadow:0 18px 40px #6d5dfc2b;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:#ffffff18;right:-60px;top:-65px}
+.hero h2{margin:0 0 6px;font-size:25px}.hero p{margin:0;color:#f0efff}.date{margin-top:16px;font-size:13px;color:#e7e5ff}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:24px 3px 11px}.section-title h3{margin:0;font-size:16px}.section-title span{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+.homecard{padding:15px;min-height:110px}.homecard .ico{font-size:23px;margin-bottom:10px}.homecard b{display:block;font-size:14px}.homecard small{color:var(--muted);font-size:11px;display:block;margin-top:4px}
+.today{padding:16px}.task{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}.task:last-child{border:0}.task input{width:19px;height:19px;accent-color:var(--primary)}
+.pill{display:inline-flex;padding:6px 9px;border-radius:99px;font-size:11px;background:var(--soft);color:var(--primary);font-weight:700}
+.search{display:flex;gap:8px;margin-top:14px}.search input{flex:1;padding:13px 15px;border:1px solid var(--border);border-radius:15px;outline:none;background:#fff}.search button{padding:0 15px;border-radius:15px;background:#fff;box-shadow:var(--shadow)}
+.menu{position:fixed;inset:0;background:#17162a66;z-index:20;display:none}.menu.open{display:block}.drawer{position:absolute;right:0;top:0;height:100%;width:min(390px,92vw);background:#fafaff;padding:22px;overflow:auto}.drawer h2{margin:4px 0 16px}.menugroup{margin:16px 0}.menugroup label{font-size:11px;color:var(--muted);font-weight:800;letter-spacing:.08em}.menuitem{display:flex;align-items:center;gap:12px;padding:13px 10px;border-radius:14px;margin-top:5px;background:#fff}.menuitem:hover{background:var(--soft)}
+.page{display:none}.page.active{display:block}.back{background:#fff;border:1px solid var(--border);padding:10px 13px;border-radius:13px;margin-bottom:14px}.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:13px}.toolbar>*{min-width:130px}.select,.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid var(--border);border-radius:13px;background:#fff;outline:none}.field{margin-bottom:10px}.field label{font-size:11px;color:var(--muted);display:block;margin:0 0 5px}.btn{padding:11px 14px;border-radius:13px;background:var(--primary);color:#fff;font-weight:700}.btn.secondary{background:#eeeefe;color:var(--primary)}.btn.danger{background:#fff0f2;color:#c73551}.form{padding:16px;margin-bottom:14px}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.full{grid-column:1/-1}.list{display:grid;gap:10px}.rowcard{padding:14px;display:flex;justify-content:space-between;gap:12px;align-items:center}.rowcard h4{margin:0 0 5px;font-size:14px}.rowcard p{margin:0;color:var(--muted);font-size:12px}.actions{display:flex;gap:6px;flex-wrap:wrap}.mini{padding:7px 9px;border-radius:10px;background:#f1f1fb;color:var(--primary);font-size:11px}.mini.del{color:#c73551;background:#fff0f2}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.metric{padding:14px}.metric small{color:var(--muted);font-size:11px}.metric strong{display:block;font-size:20px;margin-top:5px}.good{background:var(--mint)}.warn{background:var(--yellow)}.bad{background:var(--red)}
+.notice{padding:13px 15px;border-radius:15px;background:var(--blue);font-size:12px;margin-bottom:12px}.hidden{display:none!important}
+.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:12px}.tab{padding:9px 13px;border-radius:12px;background:#eeeef8;color:#62677d;white-space:nowrap}.tab.active{background:var(--primary);color:#fff}
+table{width:100%;border-collapse:collapse;font-size:12px;background:#fff;border-radius:16px;overflow:hidden}th,td{text-align:left;padding:11px;border-bottom:1px solid var(--border)}th{color:var(--muted);font-size:10px}
+.empty{text-align:center;padding:30px;color:var(--muted);font-size:13px}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.metrics{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.rowcard{align-items:flex-start;flex-direction:column}.actions{width:100%}}
+@media(max-width:430px){.app{padding:13px 10px 70px}.hero{padding:19px}.hero h2{font-size:22px}.homecard{min-height:100px;padding:13px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div id="home" class="page active">
+    <div class="top">
+      <div class="brand"><div class="logo">⌂</div><div><h1>My Home</h1><small>Smart household manager</small></div></div>
+      <button class="iconbtn" onclick="openMenu()">☰</button>
+    </div>
+    <div class="hero"><h2 id="greeting">Good Morning 👋</h2><p>Keep your home simple, organised and in control.</p><div class="date" id="todayDate"></div></div>
+    <div class="search"><input id="globalSearch" placeholder="Search home, money, loan, account, grocery..."><button onclick="globalSearch()">⌕</button></div>
+    <div id="searchResults" class="card hidden" style="padding:14px;margin-top:10px"></div>
+
+    <div class="section-title"><h3>Today</h3><span id="todayCount"></span></div>
+    <div class="card today" id="todayBox"></div>
+
+    <div class="section-title"><h3>Important</h3><span>Needs attention</span></div>
+    <div class="grid">
+      <div class="card homecard" onclick="showPage('bills')"><div class="ico">🧾</div><b>Bills</b><small id="billHint">Check upcoming payments</small></div>
+      <div class="card homecard" onclick="showPage('loans')"><div class="ico">💳</div><b>Loans & EMI</b><small id="loanHint">Track balances</small></div>
+      <div class="card homecard" onclick="showPage('budget')"><div class="ico">📊</div><b>Budget</b><small id="budgetHint">Monthly control</small></div>
+      <div class="card homecard" onclick="showPage('cleaning')"><div class="ico">🧹</div><b>Home & Garden</b><small id="cleanHint">Tasks & maintenance</small></div>
+    </div>
+    <div class="section-title"><h3>Home Spaces</h3><span>Open when needed</span></div>
+    <div class="grid">
+      <div class="card homecard" onclick="showPage('money')"><div class="ico">💰</div><b>Money</b><small>Income & expenses</small></div>
+      <div class="card homecard" onclick="showPage('accounts')"><div class="ico">🏦</div><b>Family Accounts</b><small>Bank, GPay & ledgers</small></div>
+      <div class="card homecard" onclick="showPage('grocery')"><div class="ico">🛒</div><b>Grocery</b><small>3 smart categories</small></div>
+      <div class="card homecard" onclick="showPage('reports')"><div class="ico">📚</div><b>Monthly Reports</b><small>History never disappears</small></div>
+    </div>
+  </div>
+
+  <div id="money" class="page"><button class="back" onclick="goHome()">← Home</button><h2>Money</h2>
+    <div class="tabs"><button class="tab active" onclick="moneyTab('dailyIncome',this)">Daily Income</button><button class="tab" onclick="moneyTab('monthlyIncome',this)">Monthly Income</button><button class="tab" onclick="moneyTab('dailyExpense',this)">Daily Expenses</button><button class="tab" onclick="moneyTab('monthlyExpense',this)">Monthly Expenses</button></div>
+    <div id="moneyForm"></div><div id="moneyList" class="list"></div>
+  </div>
+
+  <div id="budget" class="page"><button class="back" onclick="goHome()">← Home</button><h2>Monthly Budget Planner</h2>
+    <div class="toolbar"><select class="select" id="budgetMonth" onchange="renderBudget()"></select></div>
+    <div id="budgetMetrics" class="metrics"></div>
+    <div class="card form"><h3>Set monthly plan</h3><div class="formgrid">
+      <div class="field"><label>Expected income</label><input id="bIncome" type="number"></div>
+      <div class="field"><label>Fixed commitments</label><input id="bFixed" type="number"></div>
+      <div class="field"><label>Household budget</label><input id="bHouse" type="number"></div>
+      <div class="field"><label>Savings target</label><input id="bSave" type="number"></div>
+      <div class="field"><label>Grocery budget</label><input id="bGrocery" type="number"></div>
+      <div class="field"><label>Other household budget</label><input id="bOther" type="number"></div>
+      <div class="full"><button class="btn" onclick="saveBudget()">Save Budget</button></div>
+    </div></div>
+    <div id="budgetDetail"></div>
+  </div>
+
+  <div id="loans" class="page"><button class="back" onclick="goHome()">← Home</button><h2>Loans & Debts</h2>
+    <div class="toolbar"><select id="loanPerson" class="select" onchange="renderLoans()"></select><button class="btn" onclick="toggleForm('loanForm')">+ Add Loan</button></div>
+    <div id="loanForm" class="card form hidden"><h3>Loan details</h3><div class="formgrid">
+      <div class="field"><label>Person</label><select id="lPerson"></select></div><div class="field"><label>Loan / debt name</label><input id="lName"></div>
+      <div class="field"><label>Lender / source</label><input id="lender"></div><div class="field"><label>Principal amount</label><input id="lPrincipal" type="number"></div>
+      <div class="field"><label>Start date</label><input id="lStart" type="date"></div><div class="field"><label>Interest amount / rate</label><input id="lRate" type="number" step="0.01"></div>
+      <div class="field"><label>Interest type</label><select id="lRateType"><option value="amount">Fixed amount</option><option value="percent">Percentage</option></select></div>
+      <div class="field"><label>Interest frequency</label><select id="lFreq"><option value="monthly">Monthly</option><option value="weekly">Weekly</option><option value="yearly">Yearly</option><option value="none">No interest</option></select></div>
+      <div class="field"><label>Regular EMI / payment</label><input id="lEmi" type="number"></div><div class="field"><label>First due date</label><input id="lDue" type="date"></div>
+      <div class="full"><button class="btn" onclick="saveLoan()">Save Loan</button></div>
+    </div></div>
+    <div id="loanList" class="list"></div>
+  </div>
+
+  <div id="accounts" class="page"><button class="back" onclick="goHome()">← Home</button><h2>Family Accounts</h2>
+    <div class="toolbar"><select id="accountPerson" class="select" onchange="renderAccounts()"></select><button class="btn" onclick="toggleForm('accountForm')">+ Add Account</button></div>
+    <div id="accountForm" class="card form hidden"><h3>Account details</h3><div class="formgrid">
+      <div class="field"><label>Account holder</label><select id="aPerson"></select></div><div class="field"><label>Bank name</label><input id="aBank"></div>
+      <div class="field"><label>Account type</label><select id="aType"><option>Savings</option><option>Current</option><option>Other</option></select></div>
+      <div class="field"><label>Account number</label><input id="aNumber"></div><div class="field"><label>IFSC</label><input id="aIfsc"></div>
+      <div class="field"><label>CIF</label><input id="aCif"></div><div class="field"><label>UPI ID</label><input id="aUpi"></div>
+      <div class="field"><label>GPay available?</label><select id="aGpay"><option>Yes</option><option>No</option></select></div>
+      <div class="field"><label>ATM card?</label><select id="aAtm"><option>Yes</option><option>No</option></select></div>
+      <div class="field"><label>Opening balance</label><input id="aBalance" type="number"></div>
+      <div class="field"><label>Security PIN / sensitive note</label><input id="aSecret" type="password" autocomplete="off"></div>
+      <div class="full"><div class="notice">Sensitive values are hidden by default. This single-file version stores data locally in the browser; for highly sensitive banking credentials, use a secure password manager rather than plain browser storage.</div><button class="btn" onclick="saveAccount()">Save Account</button></div>
+    </div></div>
+    <div id="accountList" class="list"></div>
+  </div>
+
+  <div id="grocery" class="page"><button class="back" onclick="goHome()">← Home</button><h2>Grocery & Shopping</h2>
+    <div class="tabs"><button class="tab active" onclick="gTab('pooja',this)">🪔 Pooja</button><button class="tab" onclick="gTab('kitchen',this)">🍚 Kitchen</button><button class="tab" onclick="gTab('home',this)">🏠 Household</button></div>
+    <div class="card form"><div class="formgrid">
+      <div class="field"><label>Item</label><select id="gItem" onchange="if(this.value==='__custom')document.getElementById('gCustom').classList.remove('hidden')"></select></div>
+      <div class="field hidden" id="gCustom"><label>Custom item</label><input id="gCustomText"></div>
+      <div class="field"><label>Quantity</label><input id="gQty" type="number" value="1" min="0"></div><div class="field"><label>Unit</label><select id="gUnit"><option>pcs</option><option>kg</option><option>g</option><option>litre</option><option>packet</option><option>box</option></select></div>
+      <div class="field"><label>Estimated amount</label><input id="gEst" type="number"></div><div class="field"><label>Actual amount</label><input id="gActual" type="number"></div>
+      <div class="field"><label>Purchased?</label><select id="gBought"><option>No</option><option>Yes</option></select></div>
+      <div class="full"><button class="btn" onclick="saveGrocery()">Save Item</button></div>
+    </div></div>
+    <div id="groceryList" class="list"></div>
+  </div>
+
+  <div id="bills" class="page"><button class="back" onclick="goHome()">← Home</button><h2>Bills & Payments</h2>
+    <div class="card form"><div class="formgrid">
+      <div class="field"><label>Bill name</label><input id="billName"></div><div class="field"><label>Amount</label><input id="billAmount" type="number"></div>
+      <div class="field"><label>Due date</label><input id="billDue" type="date"></div><div class="field"><label>Frequency</label><select id="billFreq"><option>Monthly</option><option>Weekly</option><option>Yearly</option><option>One-time</option></select></div>
+      <div class="field"><label>Person</label><select id="billPerson"></select></div><div class="field"><label>Paid?</label><select id="billPaid"><option>No</option><option>Yes</option></select></div>
+      <div class="full"><button class="btn" onclick="saveBill()">Save Bill</button></div>
+    </div></div><div id="billList" class="list"></div>
+  </div>
+
+  <div id="cleaning" class="page"><button class="back" onclick="goHome()">← Home</button><h2>Home & Garden</h2>
+    <div class="tabs"><button class="tab active" onclick="cleanTab('home',this)">🏠 Home Cleaning</button><button class="tab" onclick="cleanTab('garden',this)">🌿 Garden</button><button class="tab" onclick="cleanTab('maintenance',this)">🔧 Maintenance</button></div>
+    <div class="card form"><div class="formgrid">
+      <div class="field"><label>Task</label><input id="cTask"></div><div class="field"><label>Frequency</label><select id="cFreq"><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Seasonal</option><option>Yearly</option><option>One-time</option></select></div>
+      <div class="field"><label>Next due</label><input id="cDue" type="date"></div><div class="field"><label>Area / item</label><input id="cArea"></div>
+      <div class="full"><button class="btn" onclick="saveCleaning()">Save Task</button></div>
+    </div></div><div id="cleanList" class="list"></div>
+  </div>
+
+  <div id="reports" class="page"><button class="back" onclick="goHome()">← Home</button><h2>Monthly Reports & History</h2>
+    <div class="toolbar"><select class="select" id="reportMonth" onchange="renderReports()"></select></div>
+    <div id="reportContent"></div>
+  </div>
+
+  <div id="settings" class="page"><button class="back" onclick="goHome()">← Home</button><h2>Settings & Backup</h2>
+    <div class="card form"><h3>Family members</h3><div class="toolbar"><input id="newPerson" class="select" placeholder="Enter name"><button class="btn" onclick="addPerson()">Add Person</button></div><div id="peopleList"></div></div>
+    <div class="card form"><h3>Data backup</h3><p style="color:var(--muted);font-size:12px">Export a complete JSON backup. Import it later to restore your household data on this device.</p><button class="btn" onclick="exportData()">Export Backup</button> <label class="btn secondary" style="display:inline-block">Import Backup<input type="file" accept=".json" hidden onchange="importData(event)"></label></div>
+  </div>
+</div>
+
+<div id="menu" class="menu" onclick="if(event.target.id==='menu')closeMenu()">
+ <div class="drawer"><button class="iconbtn" onclick="closeMenu()">×</button><h2>Main Menu</h2>
+  <div class="menugroup"><label>MY HOME</label>
+   <div class="menuitem" onclick="showPage('cleaning')">🏠 Home & Garden</div><div class="menuitem" onclick="showPage('cleaning')">🔧 Maintenance</div>
+  </div>
+  <div class="menugroup"><label>MONEY & BUDGET</label>
+   <div class="menuitem" onclick="showPage('money')">💰 Income & Expenses</div><div class="menuitem" onclick="showPage('budget')">📊 Monthly Budget</div><div class="menuitem" onclick="showPage('loans')">💳 Loans & EMI</div><div class="menuitem" onclick="showPage('bills')">🧾 Bills & Payments</div>
+  </div>
+  <div class="menugroup"><label>ACCOUNTS</label><div class="menuitem" onclick="showPage('accounts')">🏦 Family Bank Accounts</div></div>
+  <div class="menugroup"><label>SHOPPING & KITCHEN</label><div class="menuitem" onclick="showPage('grocery')">🛒 Grocery & Shopping</div></div>
+  <div class="menugroup"><label>REPORTS</label><div class="menuitem" onclick="showPage('reports')">📚 Monthly Reports & History</div></div>
+  <div class="menugroup"><label>SETTINGS</label><div class="menuitem" onclick="showPage('settings')">⚙️ Family & Backup</div></div>
+ </div>
+</div>
+
+<script>
+const KEY='smartHouseholdManager_v1';
+const todayISO=()=>new Date().toISOString().slice(0,10);
+const monthKey=d=>String(d||todayISO()).slice(0,7);
+const money=n=>'₹'+Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:2});
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+let db=JSON.parse(localStorage.getItem(KEY)||'null')||{
+ people:['Me','Husband'], income:[], expenses:[], budgets:{}, loans:[], loanPayments:[], accounts:[], accountLedger:[],
+ grocery:[], bills:[], cleaning:[], reports:{}
+};
+let currentMoney='dailyIncome', currentGrocery='pooja', currentClean='home';
+
+function save(){localStorage.setItem(KEY,JSON.stringify(db)); updateHome();}
+
+function fmtDate(d){if(!d)return '';let x=new Date(d+'T00:00:00');return x.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}
+function showPage(id){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(id).classList.add('active'); closeMenu();
+ if(id==='money')renderMoney(); if(id==='budget')renderBudget(); if(id==='loans'){fillPeople('loanPerson');fillPeople('lPerson');renderLoans()}
+ if(id==='accounts'){fillPeople('accountPerson');fillPeople('aPerson');renderAccounts()}
+ if(id==='grocery')renderGrocery(); if(id==='bills'){fillPeople('billPerson');renderBills()}
+ if(id==='cleaning')renderCleaning(); if(id==='reports')renderReports(); if(id==='settings')renderPeople();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function goHome(){showPage('home')}
+function openMenu(){document.getElementById('menu').classList.add('open')}
+function closeMenu(){document.getElementById('menu').classList.remove('open')}
+function toggleForm(id){document.getElementById(id).classList.toggle('hidden')}
+function fillPeople(id){
+ let s=document.getElementById(id); if(!s)return; let old=s.value;
+ s.innerHTML='<option value="all">All people</option>'+db.people.map(p=>`<option value="${esc(p)}">${esc(p)}</option>`).join('');
+ if([...s.options].some(o=>o.value===old))s.value=old;
+}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function greeting(){let h=new Date().getHours();return h<12?'Good Morning 👋':h<17?'Good Afternoon ☀️':'Good Evening 🌙'}
+function updateHome(){
+ document.getElementById('greeting').textContent=greeting();
+ document.getElementById('todayDate').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+ let today=todayISO();
+ let tasks=db.cleaning.filter(x=>x.due===today&&!x.done);
+ let bills=db.bills.filter(x=>x.due===today&&!x.paid);
+ let loans=db.loans.filter(l=>l.due===today);
+ let all=[...tasks.map(x=>`<div class="task"><input type="checkbox" onchange="completeCleaning('${x.id}')"><span>🧹 ${esc(x.task)} <small style="color:var(--muted)">· ${esc(x.area||'Home')}</small></span></div>`),
+ ...bills.map(x=>`<div class="task"><span>🧾 ${esc(x.name)} · ${money(x.amount)}</span><span class="pill">Due today</span></div>`),
+ ...loans.map(x=>`<div class="task"><span>💳 ${esc(x.name)}</span><span class="pill">Payment due</span></div>`)];
+ document.getElementById('todayBox').innerHTML=all.length?all.join(''):'<div class="empty">Nothing urgent for today. Your home is under control ✨</div>';
+ document.getElementById('todayCount').textContent=all.length?all.length+' item(s)':'All clear';
+ document.getElementById('billHint').textContent=db.bills.filter(x=>!x.paid).length+' pending / upcoming';
+ document.getElementById('loanHint').textContent=db.loans.length+' loan(s) tracked';
+ let b=getBudget(monthKey()); let spent=monthExpenses(monthKey()); let balance=b.income-spent;
+ document.getElementById('budgetHint').textContent=b.income?`Spent ${money(spent)} · ${money(balance)} left`: 'Set this month budget';
+ document.getElementById('cleanHint').textContent=db.cleaning.filter(x=>!x.done).length+' pending task(s)';
+}
+function getBudget(m){return db.budgets[m]||{income:0,fixed:0,house:0,savings:0,grocery:0,other:0}}
+function monthIncome(m){return db.income.filter(x=>x.month===m).reduce((a,x)=>a+Number(x.amount||0),0)}
+function monthExpenses(m){return db.expenses.filter(x=>x.month===m).reduce((a,x)=>a+Number(x.amount||0),0)}
+function moneyTab(type,btn){currentMoney=type;document.querySelectorAll('#money .tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');renderMoney()}
+function renderMoney(){
+ let type=currentMoney, isInc=type.includes('Income'), isDaily=type.startsWith('daily');
+ let title=isInc?(isDaily?'Daily Income':'Monthly Income'):(isDaily?'Daily Expenses':'Monthly Expenses');
+ document.getElementById('moneyForm').innerHTML=`<div class="card form"><h3>${title}</h3><div class="formgrid">
+ <div class="field"><label>Date</label><input id="mDate" type="date" value="${todayISO()}"></div>
+ <div class="field"><label>Person</label><select id="mPerson">${db.people.map(p=>`<option>${esc(p)}</option>`).join('')}</select></div>
+ <div class="field"><label>Source / Category</label><input id="mCat" placeholder="${isInc?'Salary, business, other':'Grocery, EB, medical, home...'}"></div>
+ <div class="field"><label>Amount</label><input id="mAmount" type="number"></div>
+ <div class="field"><label>Account / payment method</label><input id="mAccount" placeholder="Cash / Bank / GPay"></div>
+ <div class="field full"><button class="btn" onclick="saveMoneyEntry()">Save ${isInc?'Income':'Expense'}</button></div></div></div>`;
+ let arr=(isInc?db.income:db.expenses).filter(x=>isDaily?x.kind==='daily':x.kind==='monthly').sort((a,b)=>b.date.localeCompare(a.date));
+ document.getElementById('moneyList').innerHTML=arr.length?arr.map(x=>`<div class="card rowcard"><div><h4>${esc(x.category)} · ${money(x.amount)}</h4><p>${esc(x.person)} · ${fmtDate(x.date)} · ${esc(x.account||'')}</p></div><div class="actions"><button class="mini del" onclick="deleteMoney('${x.id}',${isInc})">Delete</button></div></div>`).join(''):'<div class="empty">No entries in this view yet.</div>';
+}
+function saveMoneyEntry(){
+ let type=currentMoney,isInc=type.includes('Income'),kind=type.startsWith('daily')?'daily':'monthly';
+ let date=document.getElementById('mDate').value||todayISO();
+ let obj={id:uid(),date,month:monthKey(date),person:document.getElementById('mPerson').value,category:document.getElementById('mCat').value||'General',amount:Number(document.getElementById('mAmount').value||0),account:document.getElementById('mAccount').value,kind};
+ if(!obj.amount)return alert('Enter an amount.');
+ (isInc?db.income:db.expenses).push(obj); save(); renderMoney();
+}
+function deleteMoney(id,isInc){if(!confirm('Delete this entry? It will remain recoverable only from your backup if exported.'))return;if(isInc){db.income=db.income.filter(x=>x.id!==id)}else{db.expenses=db.expenses.filter(x=>x.id!==id)}save();renderMoney()}
+function saveBudget(){
+ let m=document.getElementById('budgetMonth').value||monthKey(); db.budgets[m]={income:Number(bIncome.value||0),fixed:Number(bFixed.value||0),house:Number(bHouse.value||0),savings:Number(bSave.value||0),grocery:Number(bGrocery.value||0),other:Number(bOther.value||0)};save();renderBudget()
+}
+function populateMonths(id){
+ let s=document.getElementById(id), cur=s.value||monthKey(), months=[];let d=new Date();d.setDate(1);
+ for(let i=0;i<24;i++){let m=d.toISOString().slice(0,7);months.push(m);d.setMonth(d.getMonth()-1)}
+ s.innerHTML=months.map(m=>`<option value="${m}">${new Date(m+'-01').toLocaleDateString('en-IN',{month:'long',year:'numeric'})}</option>`).join('');s.value=months.includes(cur)?cur:months[0]
+}
+function renderBudget(){
+ populateMonths('budgetMonth');let m=document.getElementById('budgetMonth').value,b=getBudget(m);
+ bIncome.value=b.income;bFixed.value=b.fixed;bHouse.value=b.house;bSave.value=b.savings;bGrocery.value=b.grocery;bOther.value=b.other;
+ let spent=monthExpenses(m),flex=b.income-b.fixed-b.house-b.savings,remaining=b.income-spent;
+ let cls=remaining>=0?'good':'bad';
+ document.getElementById('budgetMetrics').innerHTML=`<div class="card metric"><small>Income</small><strong>${money(b.income)}</strong></div><div class="card metric"><small>Spent</small><strong>${money(spent)}</strong></div><div class="card metric ${cls}"><small>After spending</small><strong>${money(remaining)}</strong></div><div class="card metric ${flex>=0?'good':'bad'}"><small>Flexible plan</small><strong>${money(flex)}</strong></div>`;
+ let cat={};db.expenses.filter(x=>x.month===m).forEach(x=>cat[x.category]=(cat[x.category]||0)+Number(x.amount||0));
+ let warn= b.income&&spent>b.income?`<div class="notice" style="background:var(--red)">🔴 Total spending is above income by ${money(spent-b.income)}.</div>`:'';
+ document.getElementById('budgetDetail').innerHTML=warn+`<div class="card form"><h3>Category spending</h3>${Object.keys(cat).length?Object.entries(cat).map(([k,v])=>`<div class="task"><span>${esc(k)}</span><b>${money(v)}</b></div>`).join(''):'<div class="empty">No expenses recorded for this month.</div>'}</div>`;
+}
+function saveLoan(){
+ let obj={id:uid(),person:lPerson.value,name:lName.value||'Loan',lender:lender.value,principal:Number(lPrincipal.value||0),start:lStart.value||todayISO(),rate:Number(lRate.value||0),rateType:lRateType.value,freq:lFreq.value,emi:Number(lEmi.value||0),due:lDue.value||todayISO(),payments:[],interestMonths:{}};
+ if(!obj.principal)return alert('Enter principal amount.');
+ db.loans.push(obj);save();renderLoans();document.getElementById('loanForm').classList.add('hidden');
+}
+function calcInterest(loan,m){
+ if(loan.freq==='none')return 0;
+ if(loan.freq==='monthly'||loan.freq==='yearly'){
+   if(loan.rateType==='amount') return loan.freq==='monthly'?loan.rate:Number(loan.rate||0);
+   return loan.principal*(loan.rate/100)/(loan.freq==='yearly'?1:12);
+ }
+ if(loan.freq==='weekly'){
+   if(loan.rateType==='amount')return loan.rate;
+   return loan.principal*(loan.rate/100);
+ }
+ return 0;
+}
+function renderLoans(){
+ let person=document.getElementById('loanPerson').value||'all', arr=db.loans.filter(l=>person==='all'||l.person===person);
+ document.getElementById('loanList').innerHTML=arr.length?arr.map(l=>{
+   let pays=db.loanPayments.filter(p=>p.loanId===l.id), principalPaid=pays.reduce((a,p)=>a+p.principal,0), interestPaid=pays.reduce((a,p)=>a+p.interest,0), bal=Math.max(0,l.principal-principalPaid);
+   let pendingInterest=calcInterest(l,monthKey())-(l.interestMonths?.[monthKey()]||0);
+   return `<div class="card rowcard"><div style="flex:1"><h4>💳 ${esc(l.name)} · ${esc(l.person)} · ${money(bal)} remaining</h4><p>${esc(l.lender||'')} · Interest: ${money(calcInterest(l,monthKey()))}/${l.freq} · Principal paid ${money(principalPaid)} · Interest paid ${money(interestPaid)} · Next due ${fmtDate(l.due)}</p>
+   <div class="notice" style="margin-top:9px">${pendingInterest>0?`This month's interest not yet allocated: <b>${money(pendingInterest)}</b>. Once allocated, further payments this month are principal-only.`:'This month’s interest has already been allocated. Further payments this month are principal-only.'}</div></div>
+   <div class="actions"><button class="mini" onclick="payLoan('${l.id}')">+ Payment</button><button class="mini del" onclick="deleteLoan('${l.id}')">Delete</button></div></div>`
+ }).join(''):'<div class="empty">No loans for this person.</div>';
+}
+function payLoan(id){
+ let l=db.loans.find(x=>x.id===id); if(!l)return; let amount=Number(prompt(`Enter payment amount for ${l.name}`)||0);if(!amount)return;
+ let m=monthKey(), already=Number(l.interestMonths?.[m]||0), interest=already>0?0:calcInterest(l,m), principal=Math.max(0,amount-interest);
+ if(!l.interestMonths)l.interestMonths={}; l.interestMonths[m]=already+interest;
+ db.loanPayments.push({id:uid(),loanId:id,date:todayISO(),month:m,amount,interest,principal});
+ // Move next due forward by the loan frequency after a payment; multiple payments in the same month do not add another interest charge.
+ if(l.freq==='monthly'){let d=new Date((l.due||todayISO())+'T00:00:00');d.setMonth(d.getMonth()+1);l.due=d.toISOString().slice(0,10)}
+ else if(l.freq==='weekly'){let d=new Date((l.due||todayISO())+'T00:00:00');d.setDate(d.getDate()+7);l.due=d.toISOString().slice(0,10)}
+ else if(l.freq==='yearly'){let d=new Date((l.due||todayISO())+'T00:00:00');d.setFullYear(d.getFullYear()+1);l.due=d.toISOString().slice(0,10)}
+ // Record the payment as an expense so budget and reports see it.
+ db.expenses.push({id:uid(),date:todayISO(),month:m,person:l.person,category:'Loan Payment - '+l.name,amount,account:'',kind:'daily'});
+ save();renderLoans();alert(`Payment saved.\nInterest: ${money(interest)}\nPrincipal: ${money(principal)}\nRemaining: ${money(Math.max(0,l.principal-db.loanPayments.filter(p=>p.loanId===id).reduce((a,p)=>a+p.principal,0)))}`);
+}
+function deleteLoan(id){if(!confirm('Delete this loan and its payment history?'))return;db.loans=db.loans.filter(x=>x.id!==id);db.loanPayments=db.loanPayments.filter(x=>x.loanId!==id);save();renderLoans()}
+const items={pooja:['Camphor','Agarbathi','Oil','Wick','Flowers','Kumkum','Turmeric'],kitchen:['Rice','Dal','Oil','Vegetables','Fruits','Spices','Flour','Milk','Eggs','Fish'],home:['Detergent','Dishwash','Soap','Tissue','Cleaning liquid','Garbage bags','Bathroom items','Other household item']};
+function gTab(t,btn){currentGrocery=t;document.querySelectorAll('#grocery .tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');renderGrocery()}
+function renderGrocery(){
+ gItem.innerHTML=items[currentGrocery].map(x=>`<option>${x}</option>`).join('')+'<option value="__custom">+ Custom item</option>';
+ let arr=db.grocery.filter(x=>x.category===currentGrocery).sort((a,b)=>b.date.localeCompare(a.date));
+ groceryList.innerHTML=arr.length?arr.map(x=>`<div class="card rowcard"><div><h4>${x.bought?'☑':'☐'} ${esc(x.item)} · ${x.qty} ${esc(x.unit)}</h4><p>${money(x.actual||x.estimated)} · ${fmtDate(x.date)}</p></div><button class="mini del" onclick="deleteGrocery('${x.id}')">Delete</button></div>`).join(''):'<div class="empty">No items in this category.</div>';
+}
+function saveGrocery(){
+ let item=gItem.value==='__custom'?(gCustomText.value||'Custom item'):gItem.value;
+ db.grocery.push({id:uid(),category:currentGrocery,item,qty:Number(gQty.value||1),unit:gUnit.value,estimated:Number(gEst.value||0),actual:Number(gActual.value||0),bought:gBought.value==='Yes',date:todayISO(),month:monthKey()});save();renderGrocery()
+}
+function deleteGrocery(id){db.grocery=db.grocery.filter(x=>x.id!==id);save();renderGrocery()}
+function saveBill(){
+ let o={id:uid(),name:billName.value||'Bill',amount:Number(billAmount.value||0),due:billDue.value||todayISO(),freq:billFreq.value,person:billPerson.value,paid:billPaid.value==='Yes'};
+ db.bills.push(o);save();renderBills()
+}
+function renderBills(){
+ billList.innerHTML=db.bills.sort((a,b)=>a.due.localeCompare(b.due)).map(x=>`<div class="card rowcard"><div><h4>🧾 ${esc(x.name)} · ${money(x.amount)}</h4><p>${esc(x.person)} · Due ${fmtDate(x.due)} · ${esc(x.freq)}</p></div><div class="actions"><button class="mini" onclick="toggleBill('${x.id}')">${x.paid?'Mark unpaid':'Mark paid'}</button><button class="mini del" onclick="deleteBill('${x.id}')">Delete</button></div></div>`).join('')||'<div class="empty">No bills yet.</div>';
+}
+function toggleBill(id){let x=db.bills.find(x=>x.id===id);if(!x)return;x.paid=!x.paid;if(x.paid){db.expenses.push({id:uid(),date:todayISO(),month:monthKey(),person:x.person,category:'Bill - '+x.name,amount:x.amount,account:'',kind:'daily'})}save();renderBills()}
+function deleteBill(id){db.bills=db.bills.filter(x=>x.id!==id);save();renderBills()}
+function cleanTab(t,btn){currentClean=t;document.querySelectorAll('#cleaning .tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');renderCleaning()}
+function renderCleaning(){
+ let arr=db.cleaning.filter(x=>x.type===currentClean).sort((a,b)=>a.due.localeCompare(b.due));
+ cleanList.innerHTML=arr.length?arr.map(x=>`<div class="card rowcard"><div><h4>${x.done?'☑':'☐'} ${esc(x.task)}</h4><p>${esc(x.area||'')} · ${esc(x.freq)} · Due ${fmtDate(x.due)}</p></div><div class="actions"><button class="mini" onclick="completeCleaning('${x.id}')">${x.done?'Completed':'Complete'}</button><button class="mini del" onclick="deleteCleaning('${x.id}')">Delete</button></div></div>`).join(''):'<div class="empty">No tasks here yet.</div>';
+}
+function saveCleaning(){db.cleaning.push({id:uid(),type:currentClean,task:cTask.value||'Task',freq:cFreq.value,due:cDue.value||todayISO(),area:cArea.value,done:false});save();renderCleaning()}
+function completeCleaning(id){let x=db.cleaning.find(x=>x.id===id);if(!x)return;x.done=true;x.completed=todayISO();let next=new Date((x.due||todayISO())+'T00:00:00');if(x.freq==='Daily')next.setDate(next.getDate()+1);else if(x.freq==='Weekly')next.setDate(next.getDate()+7);else if(x.freq==='Monthly')next.setMonth(next.getMonth()+1);else if(x.freq==='Yearly')next.setFullYear(next.getFullYear()+1);if(x.freq!=='One-time'){db.cleaning.push({...x,id:uid(),due:next.toISOString().slice(0,10),done:false,completed:null})}save();if(document.getElementById('cleaning').classList.contains('active'))renderCleaning()}
+function deleteCleaning(id){db.cleaning=db.cleaning.filter(x=>x.id!==id);save();renderCleaning()}
+function saveAccount(){
+ db.accounts.push({id:uid(),person:aPerson.value,bank:aBank.value,type:aType.value,number:aNumber.value,ifsc:aIfsc.value,cif:aCif.value,upi:aUpi.value,gpay:aGpay.value,atm:aAtm.value,balance:Number(aBalance.value||0),secret:aSecret.value,created:todayISO()});
+ save();renderAccounts()
+}
+function renderAccounts(){
+ let p=accountPerson.value||'all',arr=db.accounts.filter(x=>p==='all'||x.person===p);
+ accountList.innerHTML=arr.length?arr.map(x=>`<div class="card rowcard"><div><h4>🏦 ${esc(x.bank)} · ${esc(x.person)}</h4><p>${esc(x.type)} · Balance ${money(x.balance)} · GPay ${esc(x.gpay)} · ATM ${esc(x.atm)}</p>
+ <p>Account: <span id="sec-${x.id}">••••••••</span> · IFSC: <span id="if-${x.id}">••••••••</span> · UPI: <span id="up-${x.id}">••••••</span></p></div>
+ <div class="actions"><button class="mini" onclick="revealAccount('${x.id}')">👁 Show/Hide</button><button class="mini" onclick="ledger('${x.id}')">📒 Ledger</button><button class="mini del" onclick="deleteAccount('${x.id}')">Delete</button></div></div>`).join(''):'<div class="empty">No accounts for this person.</div>';
+}
+function revealAccount(id){
+ let x=db.accounts.find(x=>x.id===id);if(!x)return;
+ let e=document.getElementById('sec-'+id),i=document.getElementById('if-'+id),u=document.getElementById('up-'+id);
+ let visible=e.textContent==='••••••••';e.textContent=visible?(x.number||'-'):'••••••••';i.textContent=visible?(x.ifsc||'-'):'••••••••';u.textContent=visible?(x.upi||'-'):'••••••';
+}
+function ledger(id){
+ let x=db.accounts.find(x=>x.id===id);if(!x)return;
+ let rows=db.accountLedger.filter(r=>r.accountId===id);
+ alert(`${x.bank} Ledger\n\nOpening balance: ${money(x.balance)}\nTransactions: ${rows.length}\n\n${rows.slice(-8).map(r=>`${r.date} | ${r.type} | ${money(r.amount)}`).join('\n')||'No ledger entries yet.'}\n\nStatement upload/import can be added with a bank-specific parser when the statement format is known.`);
+}
+function deleteAccount(id){db.accounts=db.accounts.filter(x=>x.id!==id);db.accountLedger=db.accountLedger.filter(x=>x.accountId!==id);save();renderAccounts()}
+function renderReports(){
+ populateMonths('reportMonth');let m=reportMonth.value;
+ let b=getBudget(m),inc=monthIncome(m),exp=monthExpenses(m),saving=inc-exp;
+ let dailyInc=db.income.filter(x=>x.month===m&&x.kind==='daily').reduce((a,x)=>a+Number(x.amount),0);
+ let monthlyInc=db.income.filter(x=>x.month===m&&x.kind==='monthly').reduce((a,x)=>a+Number(x.amount),0);
+ let dailyExp=db.expenses.filter(x=>x.month===m&&x.kind==='daily').reduce((a,x)=>a+Number(x.amount),0);
+ let monthlyExp=db.expenses.filter(x=>x.month===m&&x.kind==='monthly').reduce((a,x)=>a+Number(x.amount),0);
+ document.getElementById('reportContent').innerHTML=`<div class="metrics"><div class="card metric"><small>Total income</small><strong>${money(inc)}</strong></div><div class="card metric"><small>Total expenses</small><strong>${money(exp)}</strong></div><div class="card metric ${saving>=0?'good':'bad'}"><small>Net savings</small><strong>${money(saving)}</strong></div><div class="card metric"><small>Target</small><strong>${money(b.savings)}</strong></div></div>
+ <div class="card form"><h3>${new Date(m+'-01').toLocaleDateString('en-IN',{month:'long',year:'numeric'})} — Saved Monthly Snapshot</h3>
+ <div class="task"><span>Daily income</span><b>${money(dailyInc)}</b></div><div class="task"><span>Monthly income</span><b>${money(monthlyInc)}</b></div><div class="task"><span>Daily expenses</span><b>${money(dailyExp)}</b></div><div class="task"><span>Monthly expenses</span><b>${money(monthlyExp)}</b></div>
+ <div class="task"><span>Opening balance concept</span><b>${money(getOpeningBalance(m))}</b></div><div class="task"><span>Closing balance</span><b>${money(getOpeningBalance(m)+saving)}</b></div>
+ ${saving>=b.savings?`<div class="notice">🟢 Savings target achieved by ${money(saving-b.savings)}.</div>`:`<div class="notice" style="background:var(--yellow)">🟡 You are ${money(b.savings-saving)} below the savings target.</div>`}</div>`;
+}
+function getOpeningBalance(m){
+ let d=new Date(m+'-01T00:00:00');d.setMonth(d.getMonth()-1);let prev=d.toISOString().slice(0,7);let b=getBudget(prev);return monthIncome(prev)-monthExpenses(prev);
+}
+function addPerson(){let p=(newPerson.value||'').trim();if(!p)return;if(!db.people.includes(p))db.people.push(p);newPerson.value='';save();renderPeople();fillPeople('loanPerson');fillPeople('lPerson');fillPeople('accountPerson');fillPeople('aPerson');fillPeople('billPerson')}
+function renderPeople(){peopleList.innerHTML=db.people.map((p,i)=>`<div class="task"><span>👤 ${esc(p)}</span>${i>1?`<button class="mini del" onclick="removePerson('${esc(p)}')">Remove</button>`:''}</div>`).join('')}
+function removePerson(p){if(!confirm('Remove this person from the family list? Existing records are not automatically deleted.'))return;db.people=db.people.filter(x=>x!==p);save();renderPeople()}
+function globalSearch(){
+ let q=(globalSearch.value||'').trim().toLowerCase();if(!q){searchResults.classList.add('hidden');return}
+ let results=[];
+ db.income.forEach(x=>{if(JSON.stringify(x).toLowerCase().includes(q))results.push(`Income: ${x.category} · ${money(x.amount)} · ${x.person}`)});
+ db.expenses.forEach(x=>{if(JSON.stringify(x).toLowerCase().includes(q))results.push(`Expense: ${x.category} · ${money(x.amount)} · ${x.person}`)});
+ db.loans.forEach(x=>{if(JSON.stringify(x).toLowerCase().includes(q))results.push(`Loan: ${x.name} · ${x.person} · ${money(x.principal)}`)});
+ db.accounts.forEach(x=>{if(JSON.stringify({...x,secret:''}).toLowerCase().includes(q))results.push(`Account: ${x.bank} · ${x.person}`)});
+ db.grocery.forEach(x=>{if(JSON.stringify(x).toLowerCase().includes(q))results.push(`Grocery: ${x.item} · ${x.category}`)});
+ db.cleaning.forEach(x=>{if(JSON.stringify(x).toLowerCase().includes(q))results.push(`Task: ${x.task} · ${x.area||''}`)});
+ searchResults.classList.remove('hidden');searchResults.innerHTML=results.length?results.slice(0,30).map(r=>`<div class="task">${esc(r)}</div>`).join(''):'<div class="empty">No matching records.</div>'
+}
+function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='my-home-manager-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.people||!x.income||!x.expenses)throw Error();db=x;save();alert('Backup restored successfully.');location.reload()}catch{alert('Invalid backup file.')}};r.readAsText(f)}
+function monthlyArchive(){
+ // Preserve every month's entries in reports. Nothing is deleted when a new month starts.
+ let m=monthKey();if(!db.reports[m])db.reports[m]={created:new Date().toISOString(),note:'Monthly report is generated from preserved records.'};save()
+}
+function init(){
+ monthlyArchive();fillPeople('loanPerson');fillPeople('lPerson');fillPeople('accountPerson');fillPeople('aPerson');fillPeople('billPerson');
+ updateHome();
+ const menuBtn=document.querySelector('.top .iconbtn');
+ if(menuBtn) menuBtn.addEventListener('click',openMenu);
+ document.getElementById('globalSearch').addEventListener('keydown',e=>{if(e.key==='Enter')globalSearch()});
+ // Make every Home card reliably touch/clickable, including on mobile.
+ document.querySelectorAll('.homecard').forEach(card=>{card.setAttribute('role','button');card.setAttribute('tabindex','0');card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();card.click()}})});
+}
+window.openMenu=openMenu; window.closeMenu=closeMenu; window.showPage=showPage;
+init();
+</script>
+</body>
+</html>
